@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html><head><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ClearSource</title><style>
+body{font-family:Arial;background:#FDFBF7;padding:20px}
+h1{color:#2d6a4f}
+.product{background:white;border-radius:16px;padding:16px;margin-bottom:12px;display:flex;gap:12px;align-items:center;box-shadow:0 2px 8px rgba(0,0,0,0.05)}
+.product img{width:60px;height:60px;border-radius:12px}
+.score{margin-left:auto;padding:6px 12px;border-radius:20px;font-weight:bold;font-size:14px}
+.good{background:#d8f3dc;color:#1b4332}.mid{background:#fff3bf;color:#8a6d3b}.bad{background:#f8d7da;color:#721c24}
+.btn{background:#2d6a4f;color:white;border:none;padding:8px 12px;border-radius:10px;cursor:pointer;margin-top:6px}
+</style></head><body>
+<h1>ClearSource</h1>
+<div id="list"></div>
+<script>
+const products=[
+{id:1,name:"Milky Jelly Cleanser",brand:"GLOSSIER",price:18,score:72,img:"https://images.unsplash.com/photo-1556228720-195a672e8a03?w=60"},
+{id:2,name:"Superfood Cleanser",brand:"YOUTH TO THE PEOPLE",price:38,score:88,img:"https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=60"},
+{id:3,name:"Niacinamide Serum",brand:"THE ORDINARY",price:7,score:91,img:"https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?w=60"}
+];
+document.getElementById('list').innerHTML=products.map(p=>`
+<div class="product">
+<img src="${p.img}">
+<div style="flex:1">
+<b style="font-size:11px;color:#666">${p.brand}</b><br>
+<b>${p.name}</b><br>
+$${p.price} 
+<button class="btn" onclick="alert('Added to Routine!')">+ Add</button>
+</div>
+<div class="score ${p.score>80?'good':p.score>50?'mid':'bad'}">${p.score}</div>
+</div>
+`).join('');
+</script></body></html>
