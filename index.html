@@ -101,4 +101,107 @@ document.getElementById('searchInput').oninput = e => {
 }
 renderProducts(products);
 </script>
+</body></html><!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ClearSource</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+body { margin:0; font-family:'Poppins',sans-serif; background:#FDFBF7; padding-bottom:90px; }
+.header { position:sticky; top:0; background:rgba(255,255,255,0.85); backdrop-filter:blur(20px); padding:16px 20px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(0,0,0,0.05); }
+.logo { font-size:22px; font-weight:700; }
+.container { padding:24px 20px; max-width:650px; margin:auto; }
+h1 { font-size:32px; font-weight:700; }
+h1 span { background:linear-gradient(90deg,#40916c,#95d5b2); -webkit-background-clip:text; color:transparent; }
+.search { width:100%; padding:16px; border-radius:16px; border:1px solid #dee2e6; font-size:15px; margin-bottom:20px; }
+.categories { display:flex; gap:10px; overflow-x:auto; margin-bottom:24px; }
+.cat { padding:10px 18px; background:white; border-radius:24px; font-size:14px; font-weight:500; border:1px solid #e9ecef; cursor:pointer; }
+.cat.active { background:#2d6a4f; color:white; }
+.product { background:white; border-radius:20px; padding:16px; margin-bottom:14px; display:flex; gap:16px; align-items:center; box-shadow:0 4px 12px rgba(0,0,0,0.04); }
+.product-img-frame { width:64px; height:64px; border-radius:16px; background:#F8F9FA; padding:4px; }
+.product img { width:100%; height:100%; border-radius:12px; object-fit:cover; }
+.score { margin-left:auto; padding:6px 12px; border-radius:20px; font-weight:600; }
+.score.good{background:#d8f3dc;color:#1b4332}.score.mid{background:#fff3bf;color:#8a6d3b}.score.bad{background:#f8d7da;color:#721c24}
+.btn { background:#2d6a4f; color:white; border:none; padding:8px 14px; border-radius:12px; font-weight:600; cursor:pointer; }
+.hidden { display:none; }
+.bottom-nav { position:fixed; bottom:0; left:0; right:0; background:rgba(255,255,255,0.9); backdrop-filter:blur(20px); display:flex; justify-content:space-around; padding:14px 0; border-top:1px solid #eee; }
+.nav-item { text-align:center; font-size:12px; color:#6c757d; cursor:pointer; }
+.nav-item.active { color:#2d6a4f; font-weight:600; }
+</style>
+</head>
+<body>
+<div class="header"><div class="logo">ClearSource</div><div>🔔</div></div>
+<div class="container">
+  <h1>Stop guessing. <br><span>Start knowing.</span></h1>
+  <input id="searchInput" class="search" type="text" placeholder="🔍 Search products...">
+  <div class="categories" id="categories">
+    <div class="cat active" onclick="filterCat('All')">All</div>
+    <div class="cat" onclick="filterCat('Cleanser')">Cleanser</div>
+    <div class="cat" onclick="filterCat('Serum')">Serum</div>
+    <div class="cat" onclick="filterCat('Moisturizer')">Moisturizer</div>
+  </div>
+  <div id="productList"></div>
+  <div id="routineList" class="hidden"><h2>Your Routine</h2></div>
+</div>
+<div class="bottom-nav">
+  <div class="nav-item active" onclick="showTab('discover')">🔍<br>Discover</div>
+  <div class="nav-item" onclick="showTab('routine')">📦<br>Routine</div>
+  <div class="nav-item">👤<br>Profile</div>
+</div>
+
+<script>
+const products = [
+  {id:1,name:"Milky Jelly Cleanser",brand:"GLOSSIER",price:18,score:72,tag:"Cruelty-free",cat:"Cleanser",img:"https://images.unsplash.com/photo-1556228720-195a672e8a03?w=64"},
+  {id:2,name:"Superfood Cleanser",brand:"YOUTH TO THE PEOPLE",price:38,score:88,tag:"Cruelty-free",cat:"Cleanser",img:"https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=64"},
+  {id:3,name:"Niacinamide 10% Serum",brand:"THE ORDINARY",price:7,score:91,tag:"Vegan",cat:"Serum",img:"https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?w=64"},
+  {id:4,name:"Moisturizing Cream",brand:"CERA VE",price:19,score:65,tag:"Parent: L'Oreal",cat:"Moisturizer",img:"https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=64"},
+  {id:5,name:"C-Firma Serum",brand:"DRUNK ELEPHANT",price:80,score:85,tag:"Cruelty-free",cat:"Serum",img:"https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?w=64"},
+  {id:6,name:"Fit Me Foundation",brand:"MAYBELLINE",price:10,score:32,tag:"Animal testing",cat:"Moisturizer",img:"https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=64"},
+  // Add 14 more dummy ones so it feels huge
+  {id:7,name:"Aloe Gel",brand:"NATURAL",price:12,score:95,tag:"Vegan",cat:"Moisturizer",img:"https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?w=64"},
+  {id:8,name:"Vitamin C Serum",brand:"SKINCEUTICALS",price:166,score:89,tag:"Cruelty-free",cat:"Serum",img:"https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?w=64"}
+];
+let routine = [];
+
+function renderProducts(list){
+  document.getElementById('productList').innerHTML = list.map(p=>`
+    <div class="product">
+      <div class="product-img-frame"><img src="${p.img}"></div>
+      <div>
+        <div style="font-size:11px; color:#6c757d;">${p.brand}</div>
+        <div style="font-weight:600;">${p.name}</div>
+        <div style="font-size:12px;">${p.tag} · $${p.price}</div>
+        <button class="btn" onclick="addToRoutine(${p.id})">+ Add</button>
+      </div>
+      <div class="score ${p.score>80?'good':p.score>50?'mid':'bad'}">${p.score}</div>
+    </div>
+  `).join('');
+}
+function filterCat(cat){
+  document.querySelectorAll('.cat').forEach(c=>c.classList.remove('active'));
+  event.target.classList.add('active');
+  renderProducts(cat==='All'?products:products.filter(p=>p.cat===cat));
+}
+function addToRoutine(id){
+  if(!routine.includes(id)) routine.push(id);
+  alert("Added to Routine!");
+}
+function showTab(tab){
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  event.target.closest('.nav-item').classList.add('active');
+  if(tab==='routine'){
+    document.getElementById('productList').classList.add('hidden');
+    document.getElementById('routineList').classList.remove('hidden');
+    document.getElementById('routineList').innerHTML = '<h2>Your Routine</h2>' + routine.map(id=>{let p=products.find(x=>x.id===id); return `<div class="product"><div>${p.name}</div></div>`}).join('');
+  } else {
+    document.getElementById('productList').classList.remove('hidden');
+    document.getElementById('routineList').classList.add('hidden');
+  }
+}
+document.getElementById('searchInput').oninput = e => {
+  renderProducts(products.filter(p=>p.name.toLowerCase().includes(e.target.value.toLowerCase())));
+}
+renderProducts(products);
+</script>
 </body></html>
