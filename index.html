@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ClearSource — Ethical Beauty Finder</title>
+<style>
+  :root {
+    --teal: #2d6a5f;
+    --teal-dark: #1f4a42;
+    --cream: #faf6ef;
+    --green: #4caf7d;
+    --green-bg: #e3f5eb;
+    --yellow: #d4a017;
+    --yellow-bg: #fdf3d9;
+    --red: #d15a4a;
+    --red-bg: #fce6e2;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--cream);
+    color: #222;
+    padding-bottom: 70px;
+  }
+  header {
+    background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+    color: white;
+    padding: 28px 20px 20px;
+    text-align: center;
+  }
+  header h1 { font-size: 2rem; font-weight: 800; }
+  header p { opacity: 0.85; margin-top: 4px; font-size: 0.95rem; }
+  .search-bar {
+    margin: 16px 20px;
+  }
+  .search-bar input {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+    font-size: 1rem;
+    background: white;
+  }
+  .tabs {
+    display: none;
+  }
+  main { padding: 4px 16px 20px; }
+  .section-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 16px 4px 10px;
+    color: var(--teal-dark);
+  }
+  .card {
+    background: white;
+    border-radius: 16px;
+    padding: 14px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 12px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+  .card img {
+    width: 64px; height: 64px;
+    border-radius: 12px;
+    object-fit: cover;
+    background: #eee;
+    flex-shrink: 0;
+  }
+  .card-info { flex: 1; min-width: 0; }
+  .brand { font-size: 0.72rem; text-transform: uppercase; color: #888; letter-spacing: 0.03em; }
+  .name { font-weight: 700; font-size: 1rem; margin: 2px 0 4px; }
+  .price { color: #555; font-size: 0.9rem; }
+  .badges { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+  .badge {
+    font-size: 0.7rem;
+    padding: 3px 8px;
+    border-radius: 20px;
+    font-weight: 600;
+  }
+  .badge.cf { background: var(--green-bg); color: var(--green); }
+  .badge.pkg-bad { background: var(--yellow-bg); color: var(--yellow); }
+  .badge.conglo { background: var(--red-bg); color: var(--red); }
+  .right-col { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+  .score {
+    font-weight: 800;
+    font-size: 1rem;
+    padding: 6px 12px;
+    border-radius: 20px;
+  }
+  .score.high { background: var(--green-bg); color: var(--green); }
+  .score.mid { background: var(--yellow-bg); color: var(--yellow); }
+  .score.low { background: var(--red-bg); color: var(--red); }
+  .add-btn {
+    background: var(--teal);
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .add-btn.added { background: #999; }
+  .detail-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 50;
+    align-items: flex-end;
+  }
+  .detail-overlay.open { display: flex; }
+  .detail-sheet {
+    background: white;
+    width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
+    border-radius: 20px 20px 0 0;
+    padding: 20px;
+  }
+  .close-btn {
+    text-align: right;
+    font-size: 1.4rem;
+    color: #999;
+    cursor: pointer;
+    margin-bottom: 8px;
+  }
+  .breakdown-row {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0 4px;
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+  .bar-bg {
+    height: 8px;
+    background: #eee;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 4px;
+  }
+  .bar-fill { height: 100%; border-radius: 10px; }
+  .ingredient-chip {
+    display: inline-block;
+    background: var(--green-bg);
+    color: var(--green);
+    font-size: 0.78rem;
+    padding: 4px 10px;
+    border-radius: 20px;
+    margin: 4px 4px 0 0;
+  }
+  .empty-state {
+    text-align: center;
+    color: #999;
+    padding: 40px 20px;
+  }
+  nav.bottom-nav {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: white;
+    display: flex;
+    border-top: 1px solid #eee;
+    z-index: 40;
+  }
+  nav.bottom-nav button {
+    flex: 1;
+    border: none;
+    background: none;
+    padding: 10px 0 8px;
+    font-size: 0.75rem;
+    color: #999;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  nav.bottom-nav button.active { color: var(--teal); }
+  .avg-box {
+    background: var(--yellow-bg);
+    border-radius: 16px;
+    padding: 16px;
+    margin: 12px 4px 20px;
+  }
+  .avg-box .num { font-size: 2rem; font-weight: 800; color: var(--yellow); }
+  .disclaimer {
+    font-size: 0.7rem;
+    color: #aaa;
+    text-align: center;
+    padding: 20px;
+    line-height: 1.4;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>ClearSource</h1>
+  <p>Know what's truly behind your skincare</p>
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Search by product or brand...">
+  </div>
+</header>
+
+<main>
+  <div id="discoverView">
+    <div class="section-title">Trending Now</div>
+    <div id="productList"></div>
+  </div>
+
+  <div id="routineView" style="display:none;">
+    <div class="section-title">My Routine</div>
+    <div id="avgContainer"></div>
+    <div id="routineList"></div>
+  </div>
+</main>
+
+<div class="detail-overlay" id="detailOverlay">
+  <div class="detail-sheet" id="detailSheet"></div>
+</div>
+
+<nav class="bottom-nav">
+  <button id="navDiscover" class="active" onclick="showView('discover')">🔍<br>Discover</button>
+  <button id="navRoutine" onclick="showView('routine')">🧴<br>Routine</button>
+</nav>
+
+<div class="disclaimer">
+  Ethics scores and product information on ClearSource are independently compiled for informational purposes and are not affiliated with, endorsed by, or verified by the brands listed. Product images are illustrative.
+</div>
+
+<script>
+const products = [
+  { id: 1, brand: "Glossier", name: "Milky Jelly Cleanser", price: "$18", score: 72, cf: true, pkg: false, conglo: true, parent: "Independent (Glossier Inc.)",
+    ingredients: ["Aloe", "Glycerin", "Chamomile"], img: "https://images.unsplash.com/photo-1556229010-6c3f2c9ca5f8?w=200&h=200&fit=crop" },
+  { id: 2, brand: "Youth To The People", name: "Superfood Cleanser", price: "$38", score: 88, cf: true, pkg: true, conglo: true, parent: "L'Oréal",
+    ingredients: ["Kale", "Spinach", "Green Tea"], img: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=200&h=200&fit=crop" },
+  { id: 3, brand: "The Ordinary", name: "Niacinamide 10% + Zinc 1%", price: "$7", score: 65, cf: true, pkg: false, conglo: true, parent: "Estée Lauder (DECIEM)",
+    ingredients: ["Niacinamide", "Zinc PCA"], img: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=200&h=200&fit=crop" },
+  { id: 4, brand: "CeraVe", name: "Foaming Facial Cleanser", price: "$14", score: 70, cf: false, pkg: false, conglo: true, parent: "L'Oréal",
+    ingredients: ["Ceramides", "Hyaluronic Acid"], img: "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=200&h=200&fit=crop" },
+  { id: 5, brand: "Drunk Elephant", name: "C-Firma Vitamin C Serum", price: "$90", score: 55, cf: true, pkg: false, conglo: true, parent: "Shiseido",
+    ingredients: ["Vitamin C", "Ferulic Acid"], img: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=200&h=200&fit=crop" },
+  { id: 6, brand: "Kiehl's", name: "Superglow Vitamin C Serum", price: "$65", score: 42, cf: false, pkg: false, conglo: true, parent: "L'Oréal",
+    ingredients: ["Vitamin C", "Glycerin"], img: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=200&h=200&fit=crop" },
+  { id: 7, brand: "Mamaearth", name: "Vitamin C Face Wash", price: "₹249", score: 78, cf: true, pkg: true, conglo: false, parent: "Honasa Consumer Ltd.",
+    ingredients: ["Vitamin C", "Turmeric"], img: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=200&h=200&fit=crop" },
+  { id: 8, brand: "Lakme", name: "9 to 5 Face Wash", price: "₹199", score: 60, cf: false, pkg: false, conglo: true, parent: "Hindustan Unilever",
+    ingredients: ["Glycolic Acid", "Niacinamide"], img: "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=200&h=200&fit=crop" },
+  { id: 9, brand: "Plum", name: "Green Tea Face Wash", price: "₹345", score: 85, cf: true, pkg: true, conglo: false, parent: "Independent (Pureplay Skin Sciences)",
+    ingredients: ["Green Tea", "Salicylic Acid"], img: "https://images.unsplash.com/photo-1556229010-6c3f2c9ca5f8?w=200&h=200&fit=crop" },
+];
+
+let routine = [];
+
+function scoreClass(score) {
+  if (score >= 75) return "high";
+  if (score >= 55) return "mid";
+  return "low";
+}
+
+function renderProducts(list, targetId) {
+  const container = document.getElementById(targetId);
+  if (list.length === 0) {
+    container.innerHTML = '<div class="empty-state">No products found. Try a different search.</div>';
+    return;
+  }
+  container.innerHTML = list.map(p => `
+    <div class="card" onclick="openDetail(${p.id})">
+      <img src="${p.img}" alt="${p.name}">
+      <div class="card-info">
+        <div class="brand">${p.brand}</div>
+        <div class="name">${p.name}</div>
+        <div class="price">${p.price}</div>
+      </div>
+      <div class="right-col">
+        <div class="score ${scoreClass(p.score)}">${p.score}</div>
+        <button class="add-btn ${routine.includes(p.id) ? 'added' : ''}" onclick="event.stopPropagation(); toggleRoutine(${p.id})">
+          ${routine.includes(p.id) ? '✓ Added' : '+ Add'}
+        </button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function toggleRoutine(id) {
+  const idx = routine.indexOf(id);
+  if (idx > -1) routine.splice(idx, 1);
+  else routine.push(id);
+  renderProducts(filteredProducts(), 'productList');
+  renderRoutine();
+}
+
+function filteredProducts() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  return products.filter(p => p.brand.toLowerCase().includes(q) || p.name.toLowerCase().includes(q));
+}
+
+function renderRoutine() {
+  const list = products.filter(p => routine.includes(p.id));
+  const avgContainer = document.getElementById('avgContainer');
+  if (list.length === 0) {
+    avgContainer.innerHTML = '';
+  } else {
+    const avg = Math.round(list.reduce((s, p) => s + p.score, 0) / list.length);
+    avgContainer.innerHTML = `
+      <div class="avg-box">
+        <div style="font-size:0.8rem;color:#888;font-weight:600;">ROUTINE ETHICS AVERAGE</div>
+        <div class="num">${avg}<span style="font-size:1rem;color:#999;">/100</span></div>
+        <div style="font-size:0.85rem;color:#999;">${list.length} product${list.length > 1 ? 's' : ''}</div>
+      </div>`;
+  }
+  renderProducts(list, 'routineList');
+  if (list.length === 0) document.getElementById('routineList').innerHTML = '<div class="empty-state">No products in your routine yet.<br>Add some from Discover!</div>';
+}
+
+function openDetail(id) {
+  const p = products.find(x => x.id === id);
+  const overlay = document.getElementById('detailOverlay');
+  const sheet = document.getElementById('detailSheet');
+  sheet.innerHTML = `
+    <div class="close-btn" onclick="closeDetail()">✕</div>
+    <div class="brand">${p.brand}</div>
+    <div class="name" style="font-size:1.3rem;">${p.name}</div>
+    <div class="price" style="margin:6px 0 12px;">${p.price}</div>
+    <div class="badges">
+      ${p.cf ? '<span class="badge cf">✓ Cruelty-Free</span>' : '<span class="badge conglo">Not Certified CF</span>'}
+      ${p.pkg ? '<span class="badge cf">Sustainable Pkg</span>' : '<span class="badge pkg-bad">Non-Sustainable Pkg</span>'}
+      ${p.conglo ? '<span class="badge conglo">Conglomerate-Owned</span>' : '<span class="badge cf">Independent Brand</span>'}
+    </div>
+    <div class="section-title" style="margin-left:0;">Ethics Score Breakdown</div>
+    <div class="breakdown-row"><span>Cruelty-Free Status</span><span>${p.cf ? 100 : 20}/100</span></div>
+    <div class="bar-bg"><div class="bar-fill" style="width:${p.cf ? 100 : 20}%; background:${p.cf ? 'var(--green)' : 'var(--red)'}"></div></div>
+    <div class="breakdown-row"><span>Sustainable Packaging</span><span>${p.pkg ? 85 : 40}/100</span></div>
+    <div class="bar-bg"><div class="bar-fill" style="width:${p.pkg ? 85 : 40}%; background:${p.pkg ? 'var(--green)' : 'var(--yellow)'}"></div></div>
+    <div class="breakdown-row"><span>Parent Company</span><span>${p.conglo ? 40 : 90}/100</span></div>
+    <div class="bar-bg"><div class="bar-fill" style="width:${p.conglo ? 40 : 90}%; background:${p.conglo ? 'var(--yellow)' : 'var(--green)'}"></div></div>
+    <div style="font-size:0.85rem;color:#777;margin-top:6px;">True parent company: <strong>${p.parent}</strong></div>
+
+    <div class="section-title" style="margin-left:0;">Key Ingredients</div>
+    <div>${p.ingredients.map(i => `<span class="ingredient-chip">✓ ${i}</span>`).join('')}</div>
+
+    <button class="add-btn" style="width:100%; margin-top:20px; padding:12px; font-size:0.95rem; border-radius:12px;" onclick="toggleRoutine(${p.id}); openDetail(${p.id});">
+      ${routine.includes(p.id) ? '✓ In Your Routine' : '+ Add to Routine'}
+    </button>
+  `;
+  overlay.classList.add('open');
+}
+
+function closeDetail() {
+  document.getElementById('detailOverlay').classList.remove('open');
+}
+
+function showView(view) {
+  document.getElementById('discoverView').style.display = view === 'discover' ? 'block' : 'none';
+  document.getElementById('routineView').style.display = view === 'routine' ? 'block' : 'none';
+  document.getElementById('navDiscover').classList.toggle('active', view === 'discover');
+  document.getElementById('navRoutine').classList.toggle('active', view === 'routine');
+  if (view === 'routine') renderRoutine();
+}
+
+document.getElementById('searchInput').addEventListener('input', () => {
+  renderProducts(filteredProducts(), 'productList');
+});
+
+renderProducts(products, 'productList');
+</script>
+
+</body>
+</html>
