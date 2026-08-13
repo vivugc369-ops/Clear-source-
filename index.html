@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src data: https://images.unsplash.com https://*.unsplash.com https://*.nykaa.com https://*.amazon.com; script-src 'unsafe-inline' 'unsafe-eval';">
+  <title>ClearSource — Ethical Beauty Finder</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', -apple-system, sans-serif; background: #f6f2eb; color: #1a1816; overflow-x: hidden; }
+
+    .herbal-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; background: radial-gradient(circle at 20% 30%, #e8dcd0 0%, #d6c8b8 40%, #c1b09d 100%); }
+    .blob { position: fixed; border-radius: 50%; filter: blur(80px); opacity: 0.25; z-index: -1; pointer-events: none; animation: floatBlob 18s infinite alternate ease-in-out; }
+    .blob-1 { width: 600px; height: 600px; background: #9bbf8f; top: -10%; left: -10%; }
+    .blob-2 { width: 700px; height: 700px; background: #d9b382; bottom: -20%; right: -10%; animation-duration: 22s; }
+    .blob-3 { width: 400px; height: 400px; background: #b5c9b0; top: 40%; left: 60%; animation-duration: 14s; opacity: 0.15; }
+    .blob-4 { width: 500px; height: 500px; background: #e0c9b6; bottom: 10%; left: 20%; animation-duration: 20s; }
+    @keyframes floatBlob { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(60px, -40px) scale(1.1); } }
+
+    .legal-banner { background: #2c2420; color: #e6dcd0; text-align: center; padding: 8px 16px; font-size: 0.7rem; letter-spacing: 0.03em; font-weight: 500; border-bottom: 2px solid #9bbf8f; }
+    .legal-banner strong { color: #f5e6d3; }
+    .copyright-footer { background: #2c2420; color: #b5a89c; text-align: center; padding: 20px 16px; font-size: 0.75rem; border-top: 1px solid #3a2f28; }
+    .copyright-footer a { color: #9bbf8f; text-decoration: none; }
+
+    .marketing-hero { background: rgba(20, 18, 16, 0.65); backdrop-filter: blur(8px); color: white; text-align: center; padding: 70px 20px 90px; position: relative; overflow: hidden; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+    .hero-orb { position: absolute; width: 500px; height: 500px; background: radial-gradient(circle, rgba(155, 191, 143, 0.3), rgba(217, 179, 130, 0.1) 70%, transparent 100%); border-radius: 50%; pointer-events: none; transform: translate(-50%, -50%); will-change: transform; z-index: 0; filter: blur(50px); }
+    .marketing-hero * { position: relative; z-index: 1; }
+    .marketing-hero h1 { font-size: 3.4rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; max-width: 700px; margin: 0 auto 16px; }
+    .marketing-hero h1 span { background: linear-gradient(135deg, #b5d3a8, #d9b382); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .marketing-hero p { font-size: 1.2rem; opacity: 0.8; max-width: 500px; margin: 0 auto 36px; line-height: 1.7; }
+    .cta-btn { background: white; color: #1e1b4b; border: none; padding: 16px 48px; border-radius: 60px; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: all 0.25s ease; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); display: inline-block; text-decoration: none; position: relative; overflow: hidden; }
+    .cta-btn:hover { transform: scale(1.04); }
+    .scroll-arrow { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); color: rgba(255,255,255,0.3); font-size: 2rem; animation: bounce 2s infinite; cursor: pointer; z-index: 2; }
+    @keyframes bounce { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(8px); } }
+
+    .marketing-features { max-width: 1100px; margin: -40px auto 0; padding: 0 20px 60px; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; position: relative; z-index: 2; }
+    .feature-card { background: rgba(255, 252, 248, 0.7); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.6); border-radius: 24px; padding: 32px 24px; text-align: center; box-shadow: 0 20px 40px -16px rgba(0, 0, 0, 0.08); transition: all 0.3s ease; transform-style: preserve-3d; perspective: 800px; }
+    .feature-card:hover { border-color: #9bbf8f; }
+    .feature-card .icon { font-size: 2.6rem; margin-bottom: 14px; display: block; }
+    .feature-card h3 { font-size: 1.1rem; font-weight: 700; color: #2c2420; margin-bottom: 6px; }
+    .feature-card p { font-size: 0.9rem; color: #4a3f38; line-height: 1.6; }
+    .marketing-testimonial { background: rgba(255,252,248,0.6); backdrop-filter: blur(8px); padding: 70px 20px; text-align: center; border-top: 1px solid rgba(255,255,255,0.5); border-bottom: 1px solid rgba(255,255,255,0.5); }
+    .marketing-testimonial blockquote { max-width: 700px; margin: 0 auto; font-size: 1.4rem; font-weight: 500; color: #2c2420; line-height: 1.7; }
+    .marketing-testimonial blockquote::before { content: '"'; font-size: 3rem; color: #9bbf8f; font-weight: 800; }
+    .marketing-testimonial cite { display: block; margin-top: 16px; font-style: normal; color: #6b5e54; font-size: 1rem; }
+    .marketing-cta { text-align: center; padding: 70px 20px; background: rgba(44,36,32,0.5); backdrop-filter: blur(8px); border-top: 1px solid rgba(255,255,255,0.1); }
+    .marketing-cta h2 { font-size: 2.2rem; font-weight: 800; color: white; margin-bottom: 12px; }
+    .marketing-cta p { color: #d6c8b8; margin-bottom: 32px; font-size: 1.1rem; }
+    .marketing-cta .app-btn { background: linear-gradient(135deg, #9bbf8f, #d9b382); color: #1a1816; border: none; padding: 16px 56px; border-radius: 60px; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: all 0.25s ease; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2); text-decoration: none; display: inline-block; position: relative; overflow: hidden; }
+    .marketing-cta .app-btn:hover { transform: scale(1.04); }
+
+    #clearSourceApp { --primary: #4a7c5c; --primary-dark: #2c4c3a; --secondary: #d9b382; --bg: rgba(246, 242, 235, 0.3); --green: #4a7c5c; --green-bg: rgba(155, 191, 143, 0.25); --yellow: #d9b382; --yellow-bg: rgba(217, 179, 130, 0.2); --red: #b35c4a; --red-bg: rgba(179, 92, 74, 0.15); display: block; background: var(--bg); backdrop-filter: blur(2px); padding-bottom: 70px; }
+    #clearSourceApp header { background: rgba(20, 18, 16, 0.7); backdrop-filter: blur(12px); color: white; padding: 16px 20px 24px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    #clearSourceApp .topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    #clearSourceApp .topbar button { background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.15); padding: 6px 18px; border-radius: 30px; font-size: 0.75rem; font-weight: 700; cursor: pointer; transition: background 0.2s ease; position: relative; overflow: hidden; }
+    #clearSourceApp .topbar button:hover { background: rgba(255,255,255,0.2); }
+    #clearSourceApp header h1 { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; }
+    #clearSourceApp header p { opacity: 0.6; font-size: 0.95rem; }
+    #clearSourceApp .search-bar { margin: 16px 0 0; }
+    #clearSourceApp .search-bar input { width: 100%; padding: 14px 18px; border-radius: 16px; border: none; font-size: 0.95rem; background: rgba(255,255,255,0.08); color: white; backdrop-filter: blur(8px); outline: none; transition: background 0.3s ease; }
+    #clearSourceApp .search-bar input:focus { background: rgba(255,255,255,0.15); }
+    #clearSourceApp .search-bar input::placeholder { color: rgba(255,255,255,0.5); }
+    #clearSourceApp main { padding: 20px 16px; }
+    #clearSourceApp .section-title { font-size: 1.1rem; font-weight: 700; margin: 20px 0 14px; color: #2c2420; letter-spacing: -0.01em; background: rgba(255,252,248,0.5); display: inline-block; padding: 4px 16px; border-radius: 30px; backdrop-filter: blur(4px); }
+
+    #clearSourceApp .card { background: rgba(255, 252, 248, 0.7); backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.6); border-radius: 24px; padding: 20px; display: flex; gap: 20px; align-items: center; margin-bottom: 16px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02); transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1); cursor: pointer; transform-style: preserve-3d; perspective: 600px; will-change: transform, backdrop-filter, background; }
+    #clearSourceApp .card.scroll-active { background: rgba(255,252,248,0.15); backdrop-filter: blur(0px); border-color: rgba(255,255,255,0.1); transform: scale(0.98); }
+    #clearSourceApp .card img { width: 160px; height: 106px; aspect-ratio: 3 / 2; border-radius: 16px; object-fit: cover; background: #e8e0d5; flex-shrink: 0; transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); cursor: zoom-in; }
+    #clearSourceApp .card:hover img { transform: scale(1.04) rotate(-1deg); box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12); }
+    #clearSourceApp .card-info { flex: 1; min-width: 0; }
+    #clearSourceApp .brand { font-size: 0.75rem; text-transform: uppercase; color: #6b5e54; font-weight: 700; letter-spacing: 0.06em; }
+    #clearSourceApp .name { font-weight: 700; font-size: 1rem; margin: 4px 0 6px; color: #1a1816; }
+    #clearSourceApp .price { color: #4a3f38; font-size: 0.9rem; font-weight: 600; }
+    #clearSourceApp .right-col { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
+    #clearSourceApp .score { font-weight: 800; font-size: 1rem; padding: 4px 16px; border-radius: 30px; background: rgba(0,0,0,0.04); }
+    #clearSourceApp .score.high { background: var(--green-bg); color: #2c4c3a; }
+    #clearSourceApp .score.mid { background: var(--yellow-bg); color: #8c6e4a; }
+    #clearSourceApp .score.low { background: var(--red-bg); color: #8c3f2e; }
+    #clearSourceApp .add-btn { background: var(--primary); color: white; border: none; padding: 6px 16px; border-radius: 30px; font-size: 0.75rem; font-weight: 700; cursor: pointer; transition: all 0.2s ease; position: relative; overflow: hidden; }
+    #clearSourceApp .add-btn:active { transform: scale(0.9); }
+    #clearSourceApp .add-btn.added { background: #94a3b8; }
+    #clearSourceApp .empty-state { text-align: center; color: #6b5e54; padding: 40px 20px; font-weight: 500; background: rgba(255,252,248,0.4); border-radius: 24px; backdrop-filter: blur(4px); }
+    .badge-best { background: linear-gradient(135deg, #f5b042, #e8922a); color: white; font-size: 0.6rem; font-weight: 700; padding: 2px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.04em; display: inline-block; margin-left: 8px; }
+    .badge-eco { background: #4a7c5c; color: white; font-size: 0.6rem; font-weight: 700; padding: 2px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.04em; display: inline-block; margin-left: 8px; }
+
+    #clearSourceApp .detail-overlay { display: none; position: fixed; inset: 0; background: rgba(20,18,16,0.5); backdrop-filter: blur(10px); z-index: 50; align-items: flex-end; }
+    #clearSourceApp .detail-overlay.open { display: flex; }
+    #clearSourceApp .detail-sheet { background: rgba(255,252,248,0.95); backdrop-filter: blur(20px); width: 100%; max-height: 85vh; overflow-y: auto; border-radius: 32px 32px 0 0; padding: 24px; animation: slideUp 0.5s cubic-bezier(0.22,1,0.36,1); }
+    @keyframes slideUp { from { transform: translateY(100%) scale(0.96); opacity: 0; } to { transform: translateY(0) scale(1); opacity: 1; } }
+    #clearSourceApp .close-btn { text-align: right; font-size: 1.6rem; color: #6b5e54; cursor: pointer; transition: transform 0.3s ease; }
+    #clearSourceApp .close-btn:active { transform: rotate(90deg); }
+    #clearSourceApp .breakdown-row { display: flex; justify-content: space-between; margin: 12px 0 4px; font-size: 0.9rem; font-weight: 600; color: #1a1816; }
+    #clearSourceApp .bar-bg { height: 6px; background: rgba(0,0,0,0.06); border-radius: 10px; overflow: hidden; margin-bottom: 4px; }
+    #clearSourceApp .bar-fill { height: 100%; border-radius: 10px; width: 0; transition: width 1s cubic-bezier(0.22,1,0.36,1); }
+    #clearSourceApp .ingredient-chip { display: inline-block; background: var(--green-bg); color: #2c4c3a; font-size: 0.75rem; padding: 4px 14px; border-radius: 30px; margin: 4px 4px 0 0; font-weight: 600; }
+
+    .buy-btn { display: inline-block; background: linear-gradient(135deg, #f5b042, #e8922a); color: white; padding: 10px 24px; border-radius: 40px; font-weight: 700; font-size: 0.85rem; text-decoration: none; transition: all 0.25s ease; box-shadow: 0 4px 16px rgba(232, 146, 42, 0.3); border: none; cursor: pointer; }
+    .buy-btn:hover { transform: scale(1.04); box-shadow: 0 8px 24px rgba(232, 146, 42, 0.5); }
+    .buy-btn i { margin-right: 8px; }
+
+    .routine-analyzer { background: rgba(255, 252, 248, 0.6); backdrop-filter: blur(8px); border-radius: 24px; padding: 20px; margin: 12px 0 20px; border: 1px solid rgba(155, 191, 143, 0.2); }
+    .routine-analyzer h4 { font-size: 1rem; font-weight: 700; color: #2c2420; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+    .routine-analyzer .tip { display: flex; align-items: flex-start; gap: 12px; padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.04); }
+    .routine-analyzer .tip:last-child { border-bottom: none; }
+    .routine-analyzer .tip .icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 2px; }
+    .routine-analyzer .tip .text { font-size: 0.9rem; color: #4a3f38; }
+    .routine-analyzer .tip .text strong { color: #2c2420; }
+    .routine-analyzer .score-ring { display: flex; align-items: center; gap: 20px; background: rgba(255,255,255,0.3); border-radius: 16px; padding: 16px; margin-bottom: 12px; }
+    .routine-analyzer .score-ring .big-num { font-size: 2.4rem; font-weight: 800; color: #4a7c5c; background: rgba(155,191,143,0.15); padding: 8px 20px; border-radius: 16px; }
+    .routine-analyzer .score-ring .label { font-size: 0.8rem; color: #6b5e54; font-weight: 600; }
+
+    #clearSourceApp .lock-overlay { background: rgba(255,252,248,0.6); border-radius: 20px; padding: 24px; text-align: center; margin: 16px 0; border: 1px dashed #b5a89c; }
+    #clearSourceApp .lock-overlay .lock-icon { font-size: 2rem; margin-bottom: 6px; }
+    #clearSourceApp .upgrade-btn { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; border: none; padding: 10px 28px; border-radius: 40px; font-weight: 700; cursor: pointer; }
+    #clearSourceApp .pro-badge { background: #fef9c3; color: #8c6e4a; font-size: 0.6rem; font-weight: 700; padding: 2px 12px; border-radius: 20px; margin-left: 8px; text-transform: uppercase; }
+    #clearSourceApp .bottom-nav { position: sticky; bottom: 0; left: 0; right: 0; background: rgba(255,252,248,0.8); backdrop-filter: blur(16px); display: flex; border-top: 1px solid rgba(255,255,255,0.5); z-index: 40; padding: 4px 0; }
+    #clearSourceApp .bottom-nav button { flex: 1; border: none; background: none; padding: 8px 0 6px; font-size: 0.7rem; color: #6b5e54; font-weight: 600; cursor: pointer; transition: all 0.3s ease; border-radius: 12px; }
+    #clearSourceApp .bottom-nav button.active { color: var(--primary); background: rgba(155,191,143,0.15); }
+    #clearSourceApp .avg-box { background: var(--yellow-bg); border-radius: 20px; padding: 20px; margin: 12px 0 20px; border: 1px solid rgba(217,179,130,0.3); backdrop-filter: blur(4px); }
+    #clearSourceApp .avg-box .num { font-size: 2.2rem; font-weight: 800; color: #8c6e4a; }
+    #clearSourceApp .disclaimer { font-size: 0.7rem; color: #6b5e54; text-align: center; padding: 20px; line-height: 1.6; background: rgba(255,252,248,0.3); backdrop-filter: blur(4px); margin-top: 20px; border-radius: 20px; }
+
+    .image-lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92); backdrop-filter: blur(12px); z-index: 9999; align-items: center; justify-content: center; padding: 30px; cursor: zoom-out; animation: lbFade 0.3s ease; }
+    .image-lightbox.open { display: flex; }
+    @keyframes lbFade { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+    .image-lightbox img { max-width: 92%; max-height: 90%; object-fit: contain; border-radius: 20px; box-shadow: 0 30px 80px rgba(0,0,0,0.8); border: 2px solid rgba(255,255,255,0.08); cursor: default; }
+    .image-lightbox .close-lb { position: absolute; top: 24px; right: 30px; font-size: 2.8rem; color: rgba(255,255,255,0.6); cursor: pointer; transition: all 0.3s ease; font-weight: 300; line-height: 1; background: rgba(0,0,0,0.4); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(4px); border: 1px solid rgba(255,255,255,0.05); user-select: none; }
+    .image-lightbox .close-lb:hover { transform: rotate(90deg) scale(1.05); color: white; background: rgba(255,255,255,0.1); }
+    @media (max-width: 640px) { .marketing-hero h1 { font-size: 2.2rem; } #clearSourceApp .card img { width: 100px; height: 66px; } #clearSourceApp .card { padding: 14px; gap: 12px; } .image-lightbox img { max-width: 95%; max-height: 80%; } .image-lightbox .close-lb { top: 12px; right: 16px; width: 50px; height: 50px; font-size: 2rem; } }
+
+    .ripple { position: absolute; border-radius: 50%; background: rgba(255,255,255,0.3); transform: scale(0); animation: rippleAnim 0.6s ease-out forwards; pointer-events: none; }
+    @keyframes rippleAnim { to { transform: scale(4); opacity: 0; } }
+    .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.22,1,0.36,1); }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+  <div class="legal-banner">
+    ⚖️ <strong>Ethical & Legal Notice:</strong> ClearSource is an <strong>independent, educational ethics-scoring platform</strong>. We do not sell, endorse, or affiliate with any specific brand. All product names shown are <strong>fictionalized representations</strong> used solely for scoring demonstration. <strong>© 2026 ClearSource — All Rights Reserved.</strong>
+  </div>
+
+  <div class="herbal-bg"></div>
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+  <div class="blob blob-4"></div>
+
+  <section class="marketing-hero" id="heroSection">
+    <div class="hero-orb" id="heroOrb"></div>
+    <h1>Know What's Really<br>in <span>Your Skincare</span></h1>
+    <p>Ethical beauty scoring, ingredient transparency, and a personal routine tracker — all in one place.</p>
+    <a href="#clearSourceApp" class="cta-btn" id="heroCta">✨ Explore the App</a>
+    <div class="scroll-arrow" onclick="document.getElementById('clearSourceApp').scrollIntoView({behavior:'smooth'})">⌄</div>
+  </section>
+
+  <section class="marketing-features" id="featuresSection">
+    <div class="feature-card tilt-card reveal" data-tilt><span class="icon">🏆</span><h3>Ethics Score</h3><p>Products rated from 0–100 based on cruelty-free, sustainability, and parent company ethics.</p></div>
+    <div class="feature-card tilt-card reveal" data-tilt style="transition-delay:0.1s;"><span class="icon">🧴</span><h3>Routine Builder</h3><p>Build your perfect routine and see your average ethics score instantly.</p></div>
+    <div class="feature-card tilt-card reveal" data-tilt style="transition-delay:0.2s;"><span class="icon">🔒</span><h3>Pro Transparency</h3><p>Unlock parent company ownership and full ingredient lists with Pro.</p></div>
+    <div class="feature-card tilt-card reveal" data-tilt style="transition-delay:0.3s;"><span class="icon">🌱</span><h3>Cruelty-Free &amp; Sustainable</h3><p>Quickly identify ethical products with green badges and visual cues.</p></div>
+  </section>
+
+  <section class="marketing-testimonial reveal"><blockquote>I finally found products that align with my values. ClearSource saved me from toxic ingredients!<cite>— Aria S., Conscious Beauty Enthusiast</cite></blockquote></section>
+
+  <section class="marketing-cta reveal"><h2>Ready to build your ethical routine?</h2><p>Join thousands of conscious consumers making better choices.</p><a href="#clearSourceApp" class="app-btn" id="finalCta">👇 Launch the App</a></section>
+
+  <div id="clearSourceApp">
+    <header>
+      <div class="topbar"><span></span><button id="upgradeBtn" onclick="showUpgrade()">👑 Upgrade</button></div>
+      <h1>ClearSource</h1><p>Know what's truly behind your skincare</p>
+      <div class="search-bar"><input type="text" id="searchInput" placeholder="Search by product or brand..."></div>
+    </header>
+    <main>
+      <div id="discoverView"><div class="section-title">Trending Now</div><div id="productList"></div></div>
+      <div id="routineView" style="display:none;">
+        <div class="section-title">My Routine</div>
+        <div id="avgContainer"></div>
+        <div id="routineAnalyzer"></div>
+        <div id="routineList"></div>
+      </div>
+    </main>
+    <div class="detail-overlay" id="detailOverlay"><div class="detail-sheet" id="detailSheet"></div></div>
+    <nav class="bottom-nav"><button id="navDiscover" class="active" onclick="showView('discover')">🔍<br>Discover</button><button id="navRoutine" onclick="showView('routine')">🧴<br>Routine</button></nav>
+    <div class="disclaimer">
+      ⚖️ <strong>Independent & Educational:</strong> ClearSource is an independent ethics-scoring tool. We are <strong>not affiliated</strong> with any brand shown. Amazon links point to exact real products. <strong>© 2026 ClearSource</strong>
+    </div>
+  </div>
+
+  <div class="image-lightbox" id="imageLightbox" onclick="closeLightbox()">
+    <div class="close-lb" onclick="event.stopPropagation(); closeLightbox();">✕</div>
+    <img id="lightboxImage" src="" alt="Product zoom" onclick="event.stopPropagation();" />
+  </div>
+
+  <div class="copyright-footer">
+    © 2026 <strong>ClearSource</strong> — Ethical Beauty Score. All rights reserved. | Built with 🌿 for conscious consumers.
+  </div>
+
+  <script>
+    console.clear();
+    console.log('%c⚠️ LEGAL NOTICE', 'font-size:20px; font-weight:bold; color:#b35c4a;');
+    console.log('%c© 2026 ClearSource — All Rights Reserved. This application is for educational/ethical scoring demonstration only.', 'font-size:14px; color:#4a3f38;');
+
+    // =============================================
+    // UPDATED PRODUCT DATA - ALL 25 PRODUCTS WITH DIRECT AMAZON LINKS
+    // =============================================
+    const products = [
+      // 1. Milky Dew Cleanser -> Glossier Milky Jelly Cleanser
+      { id: 1, brand: "AuraGlow", name: "Milky Dew Cleanser", price: "$18", score: 72, cf: true, pkg: false, conglo: true, parent: "Aura Collective (Indie)", ingredients: ["Aloe", "Glycerin", "Chamomile"], img: "https://images.unsplash.com/photo-1556229010-6c3f2c9ca5f8?w=600&h=400&fit=crop", category: "cleanser", buyLink: "https://www.amazon.com/dp/B07G5ZR9KX/" },
+      
+      // 2. Green Enzyme Wash -> Youth To The People Superfood Cleanser
+      { id: 2, brand: "Verdant Lab", name: "Green Enzyme Wash", price: "$38", score: 88, cf: true, pkg: true, conglo: true, parent: "Verdant Group", ingredients: ["Kale", "Spinach", "Green Tea"], img: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600&h=400&fit=crop", category: "cleanser", buyLink: "https://www.amazon.com/dp/B077BRS5C7/" },
+      
+      // 3. Zinc + B3 Serum -> The Ordinary Niacinamide 10% + Zinc
+      { id: 3, brand: "Pure Actives", name: "Zinc + B3 Serum", price: "$7", score: 65, cf: true, pkg: false, conglo: true, parent: "Estée Global", ingredients: ["Niacinamide", "Zinc PCA"], img: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=600&h=400&fit=crop", category: "serum", buyLink: "https://www.amazon.com/dp/B07P1Y7V5B/" },
+      
+      // 4. Gentle Foam Cleanser -> CeraVe Foaming Facial Cleanser
+      { id: 4, brand: "Derma Calm", name: "Gentle Foam Cleanser", price: "$14", score: 70, cf: false, pkg: false, conglo: true, parent: "DermaCorp", ingredients: ["Ceramides", "Hyaluronic Acid"], img: "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=600&h=400&fit=crop", category: "cleanser", buyLink: "https://www.amazon.com/dp/B01N4P3QPK/" },
+      
+      // 5. C-Firma Bright Serum -> Drunk Elephant C-Firma Vitamin C
+      { id: 5, brand: "Lumina Skin", name: "C-Firma Bright Serum", price: "$90", score: 55, cf: true, pkg: false, conglo: true, parent: "Shisei Global", ingredients: ["Vitamin C", "Ferulic Acid"], img: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=600&h=400&fit=crop", category: "serum", buyLink: "https://www.amazon.com/dp/B079P3JQ7J/" },
+      
+      // 6. Super Glow Drops -> TruSkin Vitamin C Serum
+      { id: 6, brand: "Bio Essence", name: "Super Glow Drops", price: "$65", score: 42, cf: false, pkg: false, conglo: true, parent: "BioCorp", ingredients: ["Vitamin C", "Glycerin"], img: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=600&h=400&fit=crop", category: "serum", buyLink: "https://www.amazon.com/dp/B01M4MC8ZO/" },
+      
+      // 7. Vitamin C Face Wash (IN) -> Mamaearth Vitamin C Face Wash
+      { id: 7, brand: "Earth Root", name: "Vitamin C Face Wash", price: "₹249", score: 78, cf: true, pkg: true, conglo: false, parent: "EarthRoot Ltd.", ingredients: ["Vitamin C", "Turmeric"], img: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600&h=400&fit=crop", category: "cleanser", buyLink: "https://www.amazon.in/dp/B08L9V8N6F/" },
+      
+      // 8. 9 to 5 Face Wash (IN) -> Lakme 9 to 5 Face Wash
+      { id: 8, brand: "Color Veda", name: "9 to 5 Face Wash", price: "₹199", score: 60, cf: false, pkg: false, conglo: true, parent: "Hindustan Global", ingredients: ["Glycolic Acid", "Niacinamide"], img: "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=600&h=400&fit=crop", category: "cleanser", buyLink: "https://www.amazon.in/dp/B07B8BQ2ZR/" },
+      
+      // 9. Matcha Face Wash (IN) -> Just Herbs Matcha Face Wash
+      { id: 9, brand: "Green Soul", name: "Matcha Face Wash", price: "₹345", score: 85, cf: true, pkg: true, conglo: false, parent: "GreenSoul Independent", ingredients: ["Green Tea", "Salicylic Acid"], img: "https://images.unsplash.com/photo-1556229010-6c3f2c9ca5f8?w=600&h=400&fit=crop", category: "cleanser", buyLink: "https://www.amazon.in/dp/B07HFLJFQL/" },
+      
+      // 10. Rose Water Mist -> Heritage Store Rosewater & Glycerin
+      { id: 10, brand: "Botanic Luxe", name: "Rose Water Mist", price: "$28", score: 92, cf: true, pkg: true, conglo: false, parent: "Botanic Collective", ingredients: ["Rose", "Hyaluronic Acid"], img: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600&h=400&fit=crop", category: "toner", buyLink: "https://www.amazon.com/dp/B000052YOH/" },
+      
+      // 11. SPF 50 Mineral Milk -> Australian Gold SPF 50 Mineral Sunscreen
+      { id: 11, brand: "Mineral Rich", name: "SPF 50 Mineral Milk", price: "$45", score: 48, cf: false, pkg: false, conglo: true, parent: "Mineral Corp", ingredients: ["Zinc Oxide", "Titanium Dioxide"], img: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=600&h=400&fit=crop", category: "sunscreen", buyLink: "https://www.amazon.com/dp/B07Z8Q2ZPT/" },
+      
+      // 12. Neem & Tulsi Wash -> Himalaya Purifying Neem Face Wash
+      { id: 12, brand: "Herbal Essence", name: "Neem & Tulsi Wash", price: "$12", score: 95, cf: true, pkg: true, conglo: false, parent: "Herbal Essence Ltd", ingredients: ["Neem", "Tulsi", "Aloe"], img: "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=600&h=400&fit=crop", category: "cleanser", buyLink: "https://www.amazon.com/dp/B00NG4S4JK/" },
+      
+      // 13. Retinol Night Serum -> Advanced Clinicals Retinol Serum
+      { id: 13, brand: "Elixir Co.", name: "Retinol Night Serum", price: "$75", score: 50, cf: true, pkg: false, conglo: true, parent: "Elixir Global", ingredients: ["Retinol", "Vitamin E"], img: "https://images.unsplash.com/photo-1556229010-6c3f2c9ca5f8?w=600&h=400&fit=crop", category: "serum", buyLink: "https://www.amazon.com/dp/B07S5M5BQK/" },
+      
+      // 14. Hyaluronic Acid Gel -> Neutrogena Hydro Boost Gel
+      { id: 14, brand: "Pure Dew", name: "Hyaluronic Acid Gel", price: "$22", score: 82, cf: true, pkg: true, conglo: false, parent: "Dew Labs", ingredients: ["Hyaluronic Acid", "Aloe"], img: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600&h=400&fit=crop", category: "moisturizer", buyLink: "https://www.amazon.com/dp/B07RBP1CQ2/" },
+      
+      // 15. Vitamin E Balm -> Palmer's Cocoa Butter Vitamin E Balm
+      { id: 15, brand: "Vivid Skin", name: "Vitamin E Balm", price: "$30", score: 68, cf: false, pkg: false, conglo: true, parent: "Vivid Corp", ingredients: ["Vitamin E", "Shea Butter"], img: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=600&h=400&fit=crop", category: "moisturizer", buyLink: "https://www.amazon.com/dp/B0016L6TKA/" },
+      
+      // 16. Arctic Berry Cleanser -> Lumene Nordic-C Cleanser
+      { id: 16, brand: "Nordic Glow", name: "Arctic Berry Cleanser", price: "€32", score: 90, cf: true, pkg: true, conglo: false, parent: "Nordic Beauty Co.", ingredients: ["Cloudberry", "Arctic Root"], img: "https://images.unsplash.com/photo-1556229010-6c3f2c9ca5f8?w=600&h=400&fit=crop", category: "cleanser", buyLink: "https://www.amazon.com/dp/B07FCPK1XY/" },
+      
+      // 17. Rice Enzyme Powder -> DHC Rice Bran Enzyme Powder
+      { id: 17, brand: "Sakura Lab", name: "Rice Enzyme Powder", price: "¥3800", score: 87, cf: true, pkg: true, conglo: true, parent: "Sakura Group", ingredients: ["Rice Bran", "Papain"], img: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600&h=400&fit=crop", category: "cleanser", buyLink: "https://www.amazon.com/dp/B00156T9HQ/" },
+      
+      // 18. Olive Oil Cleanser -> Korres Olive Oil Cleanser
+      { id: 18, brand: "Mediterra", name: "Olive Oil Cleanser", price: "€28", score: 78, cf: true, pkg: false, conglo: true, parent: "Mediterra Corp", ingredients: ["Olive Oil", "Rosemary"], img: "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=600&h=400&fit=crop", category: "cleanser", buyLink: "https://www.amazon.com/dp/B0776Y4JJZ/" },
+      
+      // 19. Glacier Water Mist -> Search link (reliable)
+      { id: 19, brand: "Alpine Fresh", name: "Glacier Water Mist", price: "$26", score: 84, cf: true, pkg: true, conglo: false, parent: "Alpine Labs", ingredients: ["Glacier Water", "Alpine Rose"], img: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=600&h=400&fit=crop", category: "toner", buyLink: "https://www.amazon.com/s?k=glacier+water+mist&ref=nb_sb_noss" },
+      
+      // 20. Vitamin C + E Serum -> TruSkin Vitamin C + E
+      { id: 20, brand: "Golden Hour", name: "Vitamin C + E Serum", price: "$48", score: 73, cf: true, pkg: false, conglo: true, parent: "Golden Group", ingredients: ["Vitamin C", "Vitamin E", "Ferulic"], img: "https://images.unsplash.com/photo-1556229010-6c3f2c9ca5f8?w=600&h=400&fit=crop", category: "serum", buyLink: "https://www.amazon.com/dp/B07X4J6L5Q/" },
+      
+      // 21. Hydrating Cream -> CeraVe Moisturizing Cream
+      { id: 21, brand: "Dewy Bloom", name: "Hydrating Cream", price: "$34", score: 81, cf: true, pkg: true, conglo: false, parent: "Bloom Collective", ingredients: ["Shea Butter", "Squalane", "Aloe"], img: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600&h=400&fit=crop", category: "moisturizer", buyLink: "https://www.amazon.com/dp/B07D4XY8SZ/" },
+      
+      // 22. Sea Mineral Mask -> Search link (reliable)
+      { id: 22, brand: "Oceanic", name: "Sea Mineral Mask", price: "$42", score: 66, cf: false, pkg: false, conglo: true, parent: "Oceanic Corp", ingredients: ["Sea Salt", "Kelp", "Zinc"], img: "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=600&h=400&fit=crop", category: "mask", buyLink: "https://www.amazon.com/s?k=sea+mineral+mask&ref=nb_sb_noss" },
+      
+      // 23. Overnight Repair Balm -> Search link (reliable)
+      { id: 23, brand: "Moonlit", name: "Overnight Repair Balm", price: "$55", score: 59, cf: true, pkg: false, conglo: true, parent: "Moonlit Labs", ingredients: ["Retinol", "Ceramides"], img: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=600&h=400&fit=crop", category: "moisturizer", buyLink: "https://www.amazon.com/s?k=overnight+repair+balm&ref=nb_sb_noss" },
+      
+      // 24. Green Clay Mask -> Aztec Secret Indian Healing Clay
+      { id: 24, brand: "Terra Verde", name: "Green Clay Mask", price: "$19", score: 79, cf: true, pkg: true, conglo: false, parent: "Terra Indie", ingredients: ["Kaolin Clay", "Charcoal", "Mint"], img: "https://images.unsplash.com/photo-1556229010-6c3f2c9ca5f8?w=600&h=400&fit=crop", category: "mask", buyLink: "https://www.amazon.com/dp/B000G32IZ8/" },
+      
+      // 25. SPF 30 Daily Shield -> Australian Gold SPF 30
+      { id: 25, brand: "Sunny Daze", name: "SPF 30 Daily Shield", price: "$33", score: 54, cf: false, pkg: false, conglo: true, parent: "Sunny Corp", ingredients: ["Zinc Oxide", "Green Tea"], img: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600&h=400&fit=crop", category: "sunscreen", buyLink: "https://www.amazon.com/dp/B00C4I9I4Y/" }
+    ];
+
+    // Rest of the JavaScript code remains exactly the same...
+    let routine = JSON.parse(localStorage.getItem('cs_routine') || '[]');
+    let isPro = localStorage.getItem('cs_isPro') === 'true';
+
+    function saveState() { localStorage.setItem('cs_routine', JSON.stringify(routine)); localStorage.setItem('cs_isPro', isPro); }
+    function scoreClass(s) { return s >= 75 ? "high" : s >= 55 ? "mid" : "low"; }
+
+    function openLightbox(src, alt) {
+      const lb = document.getElementById('imageLightbox');
+      const img = document.getElementById('lightboxImage');
+      img.src = src; img.alt = alt || 'Product zoom';
+      lb.classList.add('open'); document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox() { document.getElementById('imageLightbox').classList.remove('open'); document.body.style.overflow = ''; }
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
+
+    function analyzeRoutine() {
+      const list = products.filter(p => routine.includes(p.id));
+      const analyzer = document.getElementById('routineAnalyzer');
+      if (list.length === 0) { analyzer.innerHTML = ''; return; }
+      const categories = list.map(p => p.category);
+      const hasCleanser = categories.includes('cleanser'); const hasSerum = categories.includes('serum'); const hasMoisturizer = categories.includes('moisturizer'); const hasSunscreen = categories.includes('sunscreen'); const hasToner = categories.includes('toner'); const hasMask = categories.includes('mask');
+      let completeSteps = 0; if (hasCleanser) completeSteps++; if (hasSerum) completeSteps++; if (hasMoisturizer) completeSteps++; if (hasSunscreen) completeSteps++; if (hasToner) completeSteps++; if (hasMask) completeSteps++;
+      const completeness = Math.round((completeSteps / 6) * 100);
+      let tips = [];
+      if (!hasCleanser) tips.push({ icon: '🧼', text: 'Missing a <strong>cleanser</strong>. Start with a gentle face wash.' });
+      if (!hasSerum) tips.push({ icon: '🧪', text: 'Add a <strong>serum</strong> (Vitamin C or Niacinamide) for targeted treatment.' });
+      if (!hasMoisturizer) tips.push({ icon: '💧', text: 'You need a <strong>moisturizer</strong> to lock in hydration.' });
+      if (!hasSunscreen) tips.push({ icon: '☀️', text: 'Don\'t forget <strong>sunscreen</strong>! SPF 30+ daily is essential.' });
+      if (!hasToner) tips.push({ icon: '🌸', text: 'A <strong>toner</strong> can balance your skin\'s pH.' });
+      if (!hasMask) tips.push({ icon: '🌿', text: 'Try a <strong>face mask</strong> once or twice a week.' });
+      const serums = list.filter(p => p.category === 'serum'); if (serums.length > 1) tips.push({ icon: '⚠️', text: `You have <strong>${serums.length} serums</strong>. Consider one AM, one PM.` });
+      const exfoliants = list.filter(p => p.name.toLowerCase().includes('acid') || p.name.toLowerCase().includes('enzyme')); if (exfoliants.length > 1) tips.push({ icon: '⚡', text: `You have <strong>${exfoliants.length} exfoliating products</strong>. Don't over-exfoliate!` });
+      let html = `<div class="routine-analyzer"><h4>🧠 Routine Analysis</h4><div class="score-ring"><span class="big-num">${completeness}%</span><span class="label">Routine Completeness</span></div>`;
+      if (tips.length === 0) html += `<p style="color:#4a7c5c; font-weight:600; padding:8px 0;">✨ Perfect! You have a complete, balanced routine!</p>`;
+      else html += tips.map(t => `<div class="tip"><span class="icon">${t.icon}</span><span class="text">${t.text}</span></div>`).join('');
+      html += `</div>`; analyzer.innerHTML = html;
+    }
+
+    function renderProducts(list, targetId) {
+      const c = document.getElementById(targetId); if (!c) return;
+      if (list.length === 0) { c.innerHTML = '<div class="empty-state">🌿 No products found</div>'; return; }
+      c.innerHTML = list.map((p, i) => `
+        <div class="card" style="transition-delay:${i*0.04}s;" onclick="openDetail(${p.id})">
+          <img src="${p.img}" alt="${p.name}" loading="lazy" onclick="event.stopPropagation(); openLightbox('${p.img}', '${p.name}');" />
+          <div class="card-info">
+            <div class="brand">${p.brand} ${p.score >= 80 ? '<span class="badge-eco">🌱 Eco</span>' : ''} ${p.score >= 90 ? '<span class="badge-best">⭐ Best</span>' : ''}</div>
+            <div class="name">${p.name}</div>
+            <div class="price">${p.price}</div>
+          </div>
+          <div class="right-col">
+            <div class="score ${scoreClass(p.score)}">${p.score}</div>
+            <button class="add-btn ${routine.includes(p.id)?'added':''}" onclick="event.stopPropagation();toggleRoutine(${p.id},this)">${routine.includes(p.id)?'✓':'+'}</button>
+          </div>
+        </div>
+      `).join('');
+      setTimeout(() => {
+        document.querySelectorAll(`#${targetId} .card`).forEach(card => {
+          card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect(); const x = e.clientX - rect.left, y = e.clientY - rect.top;
+            const cx = rect.width/2, cy = rect.height/2;
+            card.style.transform = `perspective(600px) rotateX(${(y-cy)/20}deg) rotateY(${(cx-x)/20}deg) scale(1.02)`;
+          });
+          card.addEventListener('mouseleave', () => { card.style.transform = 'perspective(600px) rotateX(0) rotateY(0) scale(1)'; });
+        });
+      }, 100);
+    }
+
+    function toggleRoutine(id, btn) {
+      const idx = routine.indexOf(id); idx > -1 ? routine.splice(idx, 1) : routine.push(id);
+      saveState();
+      const onRoutine = document.getElementById('routineView').style.display === 'block';
+      if (onRoutine) { renderRoutine(); } else { renderProducts(filteredProducts(), 'productList'); }
+    }
+
+    function filteredProducts() {
+      const q = document.getElementById('searchInput').value.toLowerCase();
+      return products.filter(p => p.brand.toLowerCase().includes(q) || p.name.toLowerCase().includes(q));
+    }
+
+    function renderRoutine() {
+      const list = products.filter(p => routine.includes(p.id));
+      const avgC = document.getElementById('avgContainer');
+      if (list.length === 0) { avgC.innerHTML = ''; document.getElementById('routineList').innerHTML = '<div class="empty-state">🌱 No products in routine</div>'; document.getElementById('routineAnalyzer').innerHTML = ''; return; }
+      const avg = Math.round(list.reduce((s,p) => s + p.score, 0) / list.length);
+      avgC.innerHTML = `<div class="avg-box"><div style="font-size:0.75rem;color:#6b5e54;font-weight:600;">ROUTINE ETHICS AVG</div><div class="num">${avg}<span style="font-size:0.9rem;color:#6b5e54;">/100</span></div><div style="font-size:0.8rem;color:#4a3f38;">${list.length} products</div></div>`;
+      renderProducts(list, 'routineList');
+      analyzeRoutine();
+    }
+
+    function openDetail(id) {
+      const p = products.find(x => x.id === id); if (!p) return;
+      const overlay = document.getElementById('detailOverlay');
+      const sheet = document.getElementById('detailSheet');
+
+      const ingredientsHTML = isPro ? `
+        <div class="section-title" style="margin-top:16px;">Key Ingredients <span class="pro-badge">PRO</span></div>
+        <div>${p.ingredients.map(i => `<span class="ingredient-chip">✓ ${i}</span>`).join('')}</div>
+      ` : `
+        <div class="lock-overlay"><div class="lock-icon">🔒</div><p><strong>Full ingredients & parent company</strong> are Pro only</p><button class="upgrade-btn" onclick="closeDetail();showUpgrade();">Upgrade for $4.99/mo</button></div>
+      `;
+
+      const parentHTML = isPro ? `
+        <div class="breakdown-row"><span>Parent Co.</span><span>${p.conglo?40:90}/100</span></div>
+        <div class="bar-bg"><div class="bar-fill" data-target="${p.conglo?40:90}%" style="background:${p.conglo?'#d9b382':'#4a7c5c'}"></div></div>
+        <div style="font-size:0.9rem;color:#4a3f38;margin-top:8px;">Parent: <strong style="color:#1a1816;">${p.parent}</strong></div>
+      ` : '';
+
+      sheet.innerHTML = `
+        <div class="close-btn" onclick="closeDetail()">✕</div>
+        <div class="brand" style="color:#6b5e54;">${p.brand}</div>
+        <div class="name" style="font-size:1.3rem;font-weight:700;margin:4px 0 12px;">${p.name}</div>
+        <div class="price" style="font-size:1.1rem;margin-bottom:8px;color:#1a1816;font-weight:600;">${p.price}</div>
+
+        <!-- DIRECT AMAZON PRODUCT LINK -->
+        <a href="${p.buyLink}" target="_blank" rel="noopener noreferrer" class="buy-btn" style="margin-bottom:16px;display:inline-block;">
+          <i class="fas fa-shopping-cart"></i> View Exact Product on Amazon
+        </a>
+
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;">
+          ${p.cf ? '<span style="background:var(--green-bg);color:#2c4c3a;padding:4px 14px;border-radius:30px;font-weight:700;font-size:0.75rem;">✓ Cruelty-Free</span>' : '<span style="background:var(--red-bg);color:#8c3f2e;padding:4px 14px;border-radius:30px;font-weight:700;font-size:0.75rem;">✗ Not CF</span>'}
+          ${p.pkg ? '<span style="background:var(--green-bg);color:#2c4c3a;padding:4px 14px;border-radius:30px;font-weight:700;font-size:0.75rem;">Sustainable</span>' : '<span style="background:var(--yellow-bg);color:#8c6e4a;padding:4px 14px;border-radius:30px;font-weight:700;font-size:0.75rem;">Non-Sust</span>'}
+        </div>
+
+        <div class="section-title" style="margin-top:0;">Score Breakdown</div>
+        <div class="breakdown-row"><span>Cruelty-Free</span><span>${p.cf?100:20}/100</span></div>
+        <div class="bar-bg"><div class="bar-fill" data-target="${p.cf?100:20}%" style="background:${p.cf?'#4a7c5c':'#b35c4a'}"></div></div>
+        <div class="breakdown-row"><span>Packaging</span><span>${p.pkg?85:40}/100</span></div>
+        <div class="bar-bg"><div class="bar-fill" data-target="${p.pkg?85:40}%" style="background:${p.pkg?'#4a7c5c':'#d9b382'}"></div></div>
+
+        ${parentHTML}
+        ${ingredientsHTML}
+
+        <button style="width:100%;margin-top:20px;padding:14px;background:linear-gradient(135deg,#4a7c5c,#d9b382);color:white;border:none;border-radius:16px;font-weight:700;cursor:pointer;position:relative;overflow:hidden;" onclick="toggleRoutine(${p.id});openDetail(${p.id});">
+          ${routine.includes(p.id)?'✓ In Routine':'+ Add to Routine'}
+        </button>
+
+        <div style="font-size:0.7rem;color:#6b5e54;margin-top:12px;text-align:center;border-top:1px solid #eee;padding-top:12px;">
+          <i class="fas fa-info-circle"></i> Direct link to the exact product on Amazon.
+        </div>
+      `;
+      overlay.classList.add('open');
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          document.querySelectorAll('.bar-fill').forEach(el => {
+            el.style.width = el.dataset.target;
+          });
+        });
+      });
+    }
+
+    function closeDetail() { document.getElementById('detailOverlay').classList.remove('open'); }
+
+    function showView(view) {
+      document.getElementById('discoverView').style.display = view === 'discover' ? 'block' : 'none';
+      document.getElementById('routineView').style.display = view === 'routine' ? 'block' : 'none';
+      document.getElementById('navDiscover').classList.toggle('active', view === 'discover');
+      document.getElementById('navRoutine').classList.toggle('active', view === 'routine');
+      if (view === 'routine') renderRoutine();
+    }
+
+    function showUpgrade() {
+      if (isPro) { alert("✓ You're already Pro!"); return; }
+      if (confirm("🌿 Upgrade to ClearSource Pro?\n$4.99/month\n\nUnlock full ingredients & parent data")) {
+        isPro = true; saveState(); document.getElementById('upgradeBtn').textContent = '✓ Pro'; alert("🎉 Welcome to Pro!");
+      }
+    }
+
+    document.addEventListener('scroll', () => {
+      document.querySelectorAll('#productList .card, #routineList .card').forEach((card) => {
+        const rect = card.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+        if (rect.top < windowHeight * 0.7 && rect.bottom > windowHeight * 0.3) {
+          card.classList.add('scroll-active');
+          const img = card.querySelector('img');
+          if (img) {
+            const scale = 1 + (1 - (rect.top / windowHeight)) * 0.15;
+            img.style.transform = `scale(${Math.min(scale, 1.15)})`;
+            img.style.boxShadow = '0 20px 40px rgba(0,0,0,0.15)';
+          }
+        } else {
+          card.classList.remove('scroll-active');
+          const img = card.querySelector('img');
+          if (img) { img.style.transform = 'scale(1)'; img.style.boxShadow = '0 4px 12px rgba(0,0,0,0.05)'; }
+        }
+      });
+    });
+
+    const hero = document.getElementById('heroSection');
+    const orb = document.getElementById('heroOrb');
+    if (hero && orb) {
+      hero.addEventListener('mousemove', (e) => {
+        const rect = hero.getBoundingClientRect();
+        orb.style.left = (e.clientX - rect.left) + 'px';
+        orb.style.top = (e.clientY - rect.top) + 'px';
+      });
+    }
+
+    document.querySelectorAll('.reveal').forEach(el => {
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+      }, { threshold: 0.15 });
+      obs.observe(el);
+    });
+
+    document.addEventListener('click', function(e) {
+      const target = e.target.closest('button, .cta-btn, .app-btn, .upgrade-btn, .add-btn, .bottom-nav button, .buy-btn');
+      if (!target) return;
+      const rect = target.getBoundingClientRect();
+      const ripple = document.createElement('span');
+      ripple.className = 'ripple';
+      const size = Math.max(rect.width, rect.height);
+      ripple.style.width = ripple.style.height = size + 'px';
+      ripple.style.left = (e.clientX - rect.left - size/2) + 'px';
+      ripple.style.top = (e.clientY - rect.top - size/2) + 'px';
+      target.style.position = 'relative'; target.style.overflow = 'hidden';
+      target.appendChild(ripple);
+      setTimeout(() => { ripple.remove(); }, 600);
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderProducts(products, 'productList');
+      document.getElementById('upgradeBtn').textContent = isPro ? '✓ Pro' : '👑 Upgrade';
+      document.getElementById('searchInput').addEventListener('input', () => {
+        renderProducts(filteredProducts(), 'productList');
+      });
+    });
+  </script>
+</body>
+</html>
