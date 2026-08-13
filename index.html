@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClearSource — Ethical Beauty Finder</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #faf6ef; color: #222; }
+    .marketing-hero { background: linear-gradient(135deg, #2d6a5f, #1f4a42); color: white; text-align: center; padding: 60px 20px 80px; position: relative; overflow: hidden; }
+    .marketing-hero h1 { font-size: 2.8rem; font-weight: 800; line-height: 1.1; max-width: 700px; margin: 0 auto 16px; }
+    .marketing-hero p { font-size: 1.2rem; opacity: 0.9; max-width: 500px; margin: 0 auto 32px; line-height: 1.6; }
+    .marketing-hero .cta-btn { background: white; color: #1f4a42; border: none; padding: 14px 40px; border-radius: 40px; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease; box-shadow: 0 8px 24px rgba(0,0,0,0.2); display: inline-block; text-decoration: none; }
+    .marketing-hero .cta-btn:hover { transform: scale(1.03); box-shadow: 0 12px 32px rgba(0,0,0,0.3); }
+    .scroll-arrow { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); color: rgba(255,255,255,0.6); font-size: 2rem; animation: bounce 2s infinite; cursor: pointer; }
+    @keyframes bounce { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(8px); } }
+    .marketing-features { max-width: 1000px; margin: -40px auto 0; padding: 0 20px 60px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; position: relative; z-index: 2; }
+    .feature-card { background: white; border-radius: 20px; padding: 28px 20px; text-align: center; box-shadow: 0 4px 16px rgba(0,0,0,0.06); transition: transform 0.25s ease; }
+    .feature-card:hover { transform: translateY(-6px); }
+    .feature-card .icon { font-size: 2.4rem; margin-bottom: 12px; }
+    .feature-card h3 { font-size: 1.1rem; color: #1f4a42; margin-bottom: 6px; }
+    .feature-card p { font-size: 0.9rem; color: #666; line-height: 1.5; }
+    .marketing-testimonial { background: white; padding: 60px 20px; text-align: center; border-top: 1px solid #eee; border-bottom: 1px solid #eee; }
+    .marketing-testimonial blockquote { max-width: 700px; margin: 0 auto; font-size: 1.3rem; font-weight: 500; color: #1f4a42; line-height: 1.6; }
+    .marketing-testimonial cite { display: block; margin-top: 16px; font-style: normal; color: #888; font-size: 0.95rem; }
+    .marketing-cta { text-align: center; padding: 60px 20px; background: #e3f5eb; }
+    .marketing-cta h2 { font-size: 2rem; color: #1f4a42; margin-bottom: 12px; }
+    .marketing-cta p { color: #555; margin-bottom: 28px; font-size: 1.1rem; }
+    .marketing-cta .app-btn { background: #2d6a5f; color: white; border: none; padding: 16px 48px; border-radius: 40px; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: background 0.2s ease, transform 0.2s ease; box-shadow: 0 4px 16px rgba(45, 106, 95, 0.3); }
+    .marketing-cta .app-btn:hover { background: #1f4a42; transform: scale(1.02); }
+    #clearSourceApp { --teal: #2d6a5f; --teal-dark: #1f4a42; --cream: #faf6ef; --green: #4caf7d; --green-bg: #e3f5eb; --yellow: #d4a017; --yellow-bg: #fdf3d9; --red: #d15a4a; --red-bg: #fce6e2; display: block; background: var(--cream); padding-bottom: 70px; animation: appFadeIn 0.4s ease; }
+    @keyframes appFadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes appFadeInUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes appSlideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+    @keyframes appPop { 0% { transform: scale(1); } 40% { transform: scale(1.15); } 100% { transform: scale(1); } }
+    #clearSourceApp header { background: linear-gradient(135deg, var(--teal), var(--teal-dark)); color: white; padding: 12px 20px 20px; text-align: center; }
+    #clearSourceApp .topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    #clearSourceApp .topbar button { background: rgba(255, 255, 255, 0.2); color: white; border: 1px solid rgba(255, 255, 255, 0.4); padding: 6px 14px; border-radius: 20px; font-size: 0.7rem; font-weight: 700; cursor: pointer; transition: background 0.2s ease; }
+    #clearSourceApp .topbar button:active { background: rgba(255, 255, 255, 0.3); }
+    #clearSourceApp header h1 { font-size: 1.8rem; font-weight: 800; margin: 0; }
+    #clearSourceApp header p { opacity: 0.9; margin-top: 4px; font-size: 0.9rem; }
+    #clearSourceApp .search-bar { margin: 14px 20px 0; }
+    #clearSourceApp .search-bar input { width: 100%; padding: 12px 16px; border-radius: 12px; border: none; font-size: 0.95rem; background: white; }
+    #clearSourceApp main { padding: 16px; }
+    #clearSourceApp .section-title { font-size: 1.05rem; font-weight: 700; margin: 16px 0 12px; color: var(--teal-dark); }
+    #clearSourceApp .card { background: white; border-radius: 16px; padding: 14px; display: flex; gap: 12px; align-items: center; margin-bottom: 12px; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06); animation: appFadeInUp 0.35s ease backwards; transition: transform 0.15s ease, box-shadow 0.15s ease; cursor: pointer; }
+    #clearSourceApp .card:active { transform: scale(0.98); box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08); }
+    #clearSourceApp .card img { width: 64px; height: 64px; border-radius: 12px; object-fit: cover; background: #eee; flex-shrink: 0; }
+    #clearSourceApp .card-info { flex: 1; min-width: 0; }
+    #clearSourceApp .brand { font-size: 0.7rem; text-transform: uppercase; color: #888; letter-spacing: 0.03em; }
+    #clearSourceApp .name { font-weight: 700; font-size: 0.95rem; margin: 2px 0 4px; }
+    #clearSourceApp .price { color: #555; font-size: 0.9rem; }
+    #clearSourceApp .right-col { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+    #clearSourceApp .score { font-weight: 800; font-size: 1rem; padding: 6px 12px; border-radius: 20px; }
+    #clearSourceApp .score.high { background: var(--green-bg); color: var(--green); }
+    #clearSourceApp .score.mid { background: var(--yellow-bg); color: var(--yellow); }
+    #clearSourceApp .score.low { background: var(--red-bg); color: var(--red); }
+    #clearSourceApp .add-btn { background: var(--teal); color: white; border: none; padding: 6px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; cursor: pointer; transition: background 0.2s ease, transform 0.15s ease; }
+    #clearSourceApp .add-btn:active { transform: scale(0.92); }
+    #clearSourceApp .add-btn.added { background: #999; animation: appPop 0.35s ease; }
+    #clearSourceApp .empty-state { text-align: center; color: #999; padding: 40px 20px; }
+    #clearSourceApp .detail-overlay { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.4); z-index: 50; align-items: flex-end; animation: appFadeIn 0.25s ease; }
+    #clearSourceApp .detail-overlay.open { display: flex; }
+    #clearSourceApp .detail-sheet { background: white; width: 100%; max-height: 85vh; overflow-y: auto; border-radius: 20px 20px 0 0; padding: 20px; animation: appSlideUp 0.3s cubic-bezier(0.22, 1, 0.36, 1); }
+    #clearSourceApp .close-btn { text-align: right; font-size: 1.4rem; color: #999; cursor: pointer; margin-bottom: 8px; transition: transform 0.15s ease; }
+    #clearSourceApp .close-btn:active { transform: scale(0.85); }
+    #clearSourceApp .breakdown-row { display: flex; justify-content: space-between; margin: 10px 0 4px; font-size: 0.9rem; font-weight: 600; }
+    #clearSourceApp .bar-bg { height: 8px; background: #eee; border-radius: 10px; overflow: hidden; margin-bottom: 4px; }
+    #clearSourceApp .bar-fill { height: 100%; border-radius: 10px; width: 0; transition: width 0.7s cubic-bezier(0.22, 1, 0.36, 1); }
+    #clearSourceApp .ingredient-chip { display: inline-block; background: var(--green-bg); color: var(--green); font-size: 0.75rem; padding: 4px 10px; border-radius: 20px; margin: 4px 4px 0 0; }
+    #clearSourceApp .lock-overlay { background: white; border-radius: 16px; padding: 20px; text-align: center; margin: 12px 0; border: 1px dashed #ccc; }
+    #clearSourceApp .lock-overlay .lock-icon { font-size: 1.6rem; margin-bottom: 6px; }
+    #clearSourceApp .lock-overlay p { font-size: 0.85rem; color: #777; margin-bottom: 10px; }
+    #clearSourceApp .upgrade-btn { background: linear-gradient(135deg, var(--teal), var(--teal-dark)); color: white; border: none; padding: 10px 20px; border-radius: 20px; font-weight: 700; font-size: 0.85rem; cursor: pointer; }
+    #clearSourceApp .pro-badge { background: #ffe9b3; color: #a56a00; font-size: 0.65rem; font-weight: 700; padding: 2px 8px; border-radius: 10px; margin-left: 6px; }
+    #clearSourceApp .bottom-nav { position: sticky; bottom: 0; left: 0; right: 0; background: white; display: flex; border-top: 1px solid #eee; z-index: 40; margin-top: 8px; }
+    #clearSourceApp .bottom-nav button { flex: 1; border: none; background: none; padding: 10px 0 8px; font-size: 0.7rem; color: #999; font-weight: 600; cursor: pointer; transition: color 0.2s ease, transform 0.15s ease; }
+    #clearSourceApp .bottom-nav button:active { transform: scale(0.9); }
+    #clearSourceApp .bottom-nav button.active { color: var(--teal); }
+    #clearSourceApp .avg-box { background: var(--yellow-bg); border-radius: 16px; padding: 16px; margin: 12px 0 20px; animation: appFadeInUp 0.35s ease; }
+    #clearSourceApp .avg-box .num { font-size: 2rem; font-weight: 800; color: var(--yellow); }
+    #clearSourceApp .disclaimer { font-size: 0.7rem; color: #aaa; text-align: center; padding: 20px; line-height: 1.4; }
+    @media (max-width: 640px) { .marketing-hero h1 { font-size: 2rem; } .marketing-hero p { font-size: 1rem; } }
+  </style>
+</head>
+<body>
+  <section class="marketing-hero">
+    <h1>Know What's Really<br>in Your Skincare</h1>
+    <p>Ethical beauty scoring, ingredient transparency, and a personal routine tracker — all in one place.</p>
+    <a href="#clearSourceApp" class="cta-btn">✨ Explore the App</a>
+    <div class="scroll-arrow" onclick="document.getElementById('clearSourceApp').scrollIntoView({behavior:'smooth'})">⌄</div>
+  </section>
+  <section class="marketing-features">
+    <div class="feature-card"><div class="icon">🏆</div><h3>Ethics Score</h3><p>Products rated from 0–100 based on cruelty-free, sustainability, and parent company ethics.</p></div>
+    <div class="feature-card"><div class="icon">🧴</div><h3>Routine Builder</h3><p>Build your perfect routine and see your average ethics score instantly.</p></div>
+    <div class="feature-card"><div class="icon">🔒</div><h3>Pro Transparency</h3><p>Unlock parent company ownership and full ingredient lists with Pro.</p></div>
+    <div class="feature-card"><div class="icon">🌱</div><h3>Cruelty-Free & Sustainable</h3><p>Quickly identify ethical products with green badges and visual cues.</p></div>
+  </section>
+  <section class="marketing-testimonial">
+    <blockquote>“I finally found products that align with my values. ClearSource saved me from toxic ingredients and unethical brands!”<cite>— Aria S., Conscious Beauty Enthusiast</cite></blockquote>
+  </section>
+  <section class="marketing-cta">
+    <h2>Ready to build your ethical routine?</h2>
+    <p>Join thousands of conscious consumers making better choices.</p>
+    <a href="#clearSourceApp" class="app-btn">👇 Launch the App</a>
+  </section>
+  <div id="clearSourceApp">
+    <header>
+      <div class="topbar"><span></span><button id="upgradeBtn" onclick="showUpgrade()">👑 Upgrade</button></div>
+      <h1>ClearSource</h1><p>Know what's truly behind your skincare</p>
+      <div class="search-bar"><input type="text" id="searchInput" placeholder="Search by product or brand..."></div>
+    </header>
+    <main>
+      <div id="discoverView"><div class="section-title">Trending Now</div><div id="productList"></div></div>
+      <div id="routineView" style="display:none;"><div class="section-title">My Routine</div><div id="avgContainer"></div><div id="routineList"></div></div>
+    </main>
+    <div class="detail-overlay" id="detailOverlay"><div class="detail-sheet" id="detailSheet"></div></div>
+    <nav class="bottom-nav">
+      <button id="navDiscover" class="active" onclick="showView('discover')">🔍<br>Discover</button>
+      <button id="navRoutine" onclick="showView('routine')">🧴<br>Routine</button>
+    </nav>
+    <div class="disclaimer">Ethics scores and product information on ClearSource are independently compiled for informational purposes and are not affiliated with, endorsed by, or verified by the brands listed. Product images are illustrative.</div>
+  </div>
+  <script>
+    const products = [
+      { id: 1, brand: "Glossier", name: "Milky Jelly Cleanser", price: "$18", score: 72, cf: true, pkg: false, conglo: true, parent: "Glossier Inc. (Independent)", ingredients: ["Aloe", "Glycerin", "Chamomile"], img: "https://images.unsplash.com/photo-1556229010-6c3f2c9ca5f8?w=200&h=200&fit=crop" },
+      { id: 2, brand: "Youth To The People", name: "Superfood Cleanser", price: "$38", score: 88, cf: true, pkg: true, conglo: true, parent: "L'Oréal", ingredients: ["Kale", "Spinach", "Green Tea"], img: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=200&h=200&fit=crop" },
+      { id: 3, brand: "The Ordinary", name: "Niacinamide 10% + Zinc 1%", price: "$7", score: 65, cf: true, pkg: false, conglo: true, parent: "Estée Lauder (DECIEM)", ingredients: ["Niacinamide", "Zinc PCA"], img: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=200&h=200&fit=crop" },
+      { id: 4, brand: "CeraVe", name: "Foaming Facial Cleanser", price: "$14", score: 70, cf: false, pkg: false, conglo: true, parent: "L'Oréal", ingredients: ["Ceramides", "Hyaluronic Acid"], img: "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=200&h=200&fit=crop" },
+      { id: 5, brand: "Drunk Elephant", name: "C-Firma Vitamin C Serum", price: "$90", score: 55, cf: true, pkg: false, conglo: true, parent: "Shiseido", ingredients: ["Vitamin C", "Ferulic Acid"], img: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=200&h=200&fit=crop" },
+      { id: 6, brand: "Kiehl's", name: "Superglow Vitamin C Serum", price: "$65", score: 42, cf: false, pkg: false, conglo: true, parent: "L'Oréal", ingredients: ["Vitamin C", "Glycerin"], img: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=200&h=200&fit=crop" },
+      { id: 7, brand: "Mamaearth", name: "Vitamin C Face Wash", price: "₹249", score: 78, cf: true, pkg: true, conglo: false, parent: "Honasa Consumer Ltd.", ingredients: ["Vitamin C", "Turmeric"], img: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=200&h=200&fit=crop" },
+      { id: 8, brand: "Lakme", name: "9 to 5 Face Wash", price: "₹199", score: 60, cf: false, pkg: false, conglo: true, parent: "Hindustan Unilever", ingredients: ["Glycolic Acid", "Niacinamide"], img: "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=200&h=200&fit=crop" },
+      { id: 9, brand: "Plum", name: "Green Tea Face Wash", price: "₹345", score: 85, cf: true, pkg: true, conglo: false, parent: "Independent (Pureplay Skin Sciences)", ingredients: ["Green Tea", "Salicylic Acid"], img: "https://images.unsplash.com/photo-1556229010-6c3f2c9ca5f8?w=200&h=200&fit=crop" },
+    ];
+    let routine = JSON.parse(localStorage.getItem('cs_routine') || '[]');
+    let isPro = localStorage.getItem('cs_isPro') === 'true';
+    function saveState() { localStorage.setItem('cs_routine', JSON.stringify(routine)); localStorage.setItem('cs_isPro', isPro); }
+    function scoreClass(score) { if (score >= 75) return "high"; if (score >= 55) return "mid"; return "low"; }
+    function renderProducts(list, targetId) {
+      const container = document.getElementById(targetId);
+      if (!container) return;
+      if (list.length === 0) { container.innerHTML = '<div class="empty-state">No products found</div>'; return; }
+      container.innerHTML = list.map((p, i) => `
+        <div class="card" style="animation-delay:${i * 0.06}s" onclick="openDetail(${p.id})">
+          <img src="${p.img}" alt="${p.name}">
+          <div class="card-info"><div class="brand">${p.brand}</div><div class="name">${p.name}</div><div class="price">${p.price}</div></div>
+          <div class="right-col"><div class="score ${scoreClass(p.score)}">${p.score}</div>
+          <button class="add-btn ${routine.includes(p.id) ? 'added' : ''}" onclick="event.stopPropagation(); toggleRoutine(${p.id}, this)">${routine.includes(p.id) ? '✓' : '+'}</button></div>
+        </div>
+      `).join('');
+    }
+    function toggleRoutine(id, btn) {
+      const idx = routine.indexOf(id);
+      if (idx > -1) routine.splice(idx, 1);
+      else { routine.push(id); if (btn) btn.classList.add('just-added'); }
+      saveState();
+      const onRoutineTab = document.getElementById('routineView').style.display === 'block';
+      if (onRoutineTab) renderRoutine();
+      else renderProducts(filteredProducts(), 'productList');
+    }
+    function filteredProducts() {
+      const q = document.getElementById('searchInput').value.toLowerCase();
+      return products.filter(p => p.brand.toLowerCase().includes(q) || p.name.toLowerCase().includes(q));
+    }
+    function renderRoutine() {
+      const list = products.filter(p => routine.includes(p.id));
+      const avgContainer = document.getElementById('avgContainer');
+      if (list.length === 0) { avgContainer.innerHTML = ''; document.getElementById('routineList').innerHTML = '<div class="empty-state">No products in routine yet</div>'; return; }
+      const avg = Math.round(list.reduce((s, p) => s + p.score, 0) / list.length);
+      avgContainer.innerHTML = `<div class="avg-box"><div style="font-size:0.75rem;color:#888;font-weight:600;">ROUTINE ETHICS AVERAGE</div><div class="num">${avg}<span style="font-size:0.9rem;color:#999;">/100</span></div><div style="font-size:0.8rem;color:#999;">${list.length} product${list.length > 1 ? 's' : ''}</div></div>`;
+      renderProducts(list, 'routineList');
+    }
+    function openDetail(id) {
+      const p = products.find(x => x.id === id);
+      if (!p) return;
+      const overlay = document.getElementById('detailOverlay');
+      const sheet = document.getElementById('detailSheet');
+      sheet.innerHTML = `
+        <div class="close-btn" onclick="closeDetail()">✕</div>
+        <div class="brand">${p.brand}</div>
+        <div class="name" style="font-size:1.2rem; margin:6px 0 12px;">${p.name}</div>
+        <div class="price" style="margin-bottom:12px;">${p.price}</div>
+        <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:12px;">
+          ${p.cf ? '<span style="background:var(--green-bg); color:var(--green); font-size:0.7rem; padding:3px 8px; border-radius:20px; font-weight:600;">✓ Cruelty-Free</span>' : '<span style="background:var(--red-bg); color:var(--red); font-size:0.7rem; padding:3px 8px; border-radius:20px; font-weight:600;">✗ Not CF</span>'}
+          ${p.pkg ? '<span style="background:var(--green-bg); color:var(--green); font-size:0.7rem; padding:3px 8px; border-radius:20px; font-weight:600;">Sustainable</span>' : '<span style="background:var(--yellow-bg); color:var(--yellow); font-size:0.7rem; padding:3px 8px; border-radius:20px; font-weight:600;">Non-Sust</span>'}
+        </div>
+        <div class="section-title">Ethics Score Breakdown</div>
+        <div class="breakdown-row"><span>Cruelty-Free Status</span><span>${p.cf ? 100 : 20}/100</span></div>
+        <div class="bar-bg"><div class="bar-fill" data-target="${p.cf ? 100 : 20}%" style="background:${p.cf ? 'var(--green)' : 'var(--red)'}"></div></div>
+        <div class="breakdown-row"><span>Sustainable Packaging</span><span>${p.pkg ? 85 : 40}/100</span></div>
+        <div class="bar-bg"><div class="bar-fill" data-target="${p.pkg ? 85 : 40}%" style="background:${p.pkg ? 'var(--green)' : 'var(--yellow)'}"></div></div>
+        ${isPro ? `<div class="breakdown-row"><span>Parent Company</span><span>${p.conglo ? 40 : 90}/100</span></div><div class="bar-bg"><div class="bar-fill" data-target="${p.conglo ? 40 : 90}%" style="background:${p.conglo ? 'var(--yellow)' : 'var(--green)'}"></div></div><div style="font-size:0.85rem; color:#777; margin-top:8px;">True parent: <strong>${p.parent}</strong></div><div class="section-title">Key Ingredients<span class="pro-badge">PRO</span></div><div>${p.ingredients.map(i => `<span class="ingredient-chip">✓ ${i}</span>`).join('')}</div>` : `<div class="lock-overlay"><div class="lock-icon">🔒</div><p><strong>Parent company & ingredients</strong> are Pro only</p><button class="upgrade-btn" onclick="closeDetail(); showUpgrade();">Upgrade for $4.99/mo</button></div>`}
+        <button style="width:100%; margin-top:16px; padding:12px; background:var(--teal); color:white; border:none; border-radius:12px; font-weight:700; cursor:pointer;" onclick="toggleRoutine(${p.id}); openDetail(${p.id});">${routine.includes(p.id) ? '✓ In Routine' : '+ Add to Routine'}</button>
+      `;
+      overlay.classList.add('open');
+      requestAnimationFrame(() => { requestAnimationFrame(() => { document.querySelectorAll('.bar-fill').forEach(el => { el.style.width = el.dataset.target; }); }); });
+    }
+    function closeDetail() { document.getElementById('detailOverlay').classList.remove('open'); }
+    function showView(view) {
+      document.getElementById('discoverView').style.display = view === 'discover' ? 'block' : 'none';
+      document.getElementById('routineView').style.display = view === 'routine' ? 'block' : 'none';
+      document.getElementById('navDiscover').classList.toggle('active', view === 'discover');
+      document.getElementById('navRoutine').classList.toggle('active', view === 'routine');
+      if (view === 'routine') renderRoutine();
+    }
+    function showUpgrade() {
+      if (isPro) { alert("✓ You're already Pro!"); return; }
+      if (confirm("Upgrade to ClearSource Pro?\n$4.99/month (₹499/month)\n\nUnlock:\n• Full ingredients\n• Parent company info\n• Ethical alternatives\n\n(Demo: tap OK to unlock)")) {
+        isPro = true; saveState(); document.getElementById('upgradeBtn').textContent = '✓ Pro'; alert("🎉 You're now Pro! Full details unlocked.");
+      }
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+      renderProducts(products, 'productList');
+      document.getElementById('upgradeBtn').textContent = isPro ? '✓ Pro' : '👑 Upgrade';
+      document.getElementById('searchInput').addEventListener('input', () => { renderProducts(filteredProducts(), 'productList'); });
+    });
+  </script>
+</body>
+</html>
