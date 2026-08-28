@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ClearSource — Ethical Beauty Score</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background: #0b0a0a; color: #f5f0eb; min-height: 100vh; }
+    .bg-animated { position: fixed; inset: 0; z-index: -2; background: radial-gradient(ellipse at 20% 50%, #1a1410, #0d0b0a 60%, #050404); }
+    .bg-animated::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 70% 30%, rgba(155, 191, 143, 0.06), transparent 60%), radial-gradient(circle at 30% 70%, rgba(217, 179, 130, 0.04), transparent 60%); animation: shiftBg 20s ease-in-out infinite alternate; }
+    @keyframes shiftBg { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(-5%, -5%) scale(1.1); } }
+    .particles { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
+    .particle { position: absolute; width: 4px; height: 4px; background: rgba(155, 191, 143, 0.2); border-radius: 50%; animation: floatParticle 15s infinite alternate ease-in-out; }
+    .particle:nth-child(1) { left: 10%; top: 20%; animation-duration: 18s; width: 6px; height: 6px; }
+    .particle:nth-child(2) { left: 80%; top: 15%; animation-duration: 12s; width: 3px; height: 3px; background: rgba(217,179,130,0.15); }
+    .particle:nth-child(3) { left: 50%; top: 70%; animation-duration: 20s; width: 5px; height: 5px; }
+    .particle:nth-child(4) { left: 25%; top: 85%; animation-duration: 14s; width: 4px; height: 4px; }
+    .particle:nth-child(5) { left: 70%; top: 60%; animation-duration: 22s; width: 7px; height: 7px; background: rgba(217,179,130,0.1); }
+    .particle:nth-child(6) { left: 15%; top: 45%; animation-duration: 16s; width: 3px; height: 3px; }
+    .particle:nth-child(7) { left: 90%; top: 40%; animation-duration: 19s; width: 5px; height: 5px; background: rgba(155,191,143,0.15); }
+    .particle:nth-child(8) { left: 35%; top: 10%; animation-duration: 13s; width: 4px; height: 4px; }
+    .particle:nth-child(9) { left: 60%; top: 90%; animation-duration: 21s; width: 6px; height: 6px; background: rgba(217,179,130,0.12); }
+    .particle:nth-child(10) { left: 5%; top: 75%; animation-duration: 11s; width: 3px; height: 3px; }
+    .particle:nth-child(11) { left: 45%; top: 35%; animation-duration: 24s; width: 5px; height: 5px; }
+    .particle:nth-child(12) { left: 75%; top: 25%; animation-duration: 17s; width: 4px; height: 4px; }
+    @keyframes floatParticle { 0% { transform: translate(0, 0) scale(1); opacity: 0.2; } 100% { transform: translate(30px, -25px) scale(1.8); opacity: 0.6; } }
+    .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 40px 20px 80px; }
+    .hero h1 { font-size: 4rem; font-weight: 800; letter-spacing: -0.04em; line-height: 1.05; max-width: 720px; background: linear-gradient(135deg, #f5f0eb 0%, #d9b382 40%, #9bbf8f 80%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: fadeUp 1.2s ease; }
+    .hero p { font-size: 1.25rem; color: #b5a89c; max-width: 520px; margin: 20px auto 36px; line-height: 1.7; animation: fadeUp 1.4s ease; }
+    .hero .cta-btn { background: linear-gradient(135deg, #9bbf8f, #d9b382); color: #0b0a0a; padding: 18px 52px; border-radius: 60px; font-weight: 700; font-size: 1.1rem; border: none; cursor: pointer; transition: 0.3s; text-decoration: none; display: inline-block; box-shadow: 0 8px 40px rgba(155, 191, 143, 0.2); animation: fadeUp 1.6s ease; }
+    .hero .cta-btn:hover { transform: scale(1.05); box-shadow: 0 12px 56px rgba(155, 191, 143, 0.3); }
+    .hero .scroll-indicator { position: absolute; bottom: 40px; font-size: 2rem; color: rgba(181, 168, 156, 0.15); animation: bounceDown 2.4s infinite; cursor: pointer; }
+    @keyframes bounceDown { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(10px); } }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    .legal { background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(8px); padding: 8px 16px; text-align: center; font-size: 0.6rem; color: #6b5e54; border-bottom: 1px solid rgba(255, 255, 255, 0.02); }
+    .legal strong { color: #b5a89c; }
+    #appHeader { background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(16px); padding: 16px 20px; text-align: center; border-bottom: 1px solid rgba(255, 255, 255, 0.03); position: sticky; top: 0; z-index: 50; }
+    #appHeader .topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    #appHeader .topbar h1 { font-size: 1.8rem; font-weight: 800; background: linear-gradient(135deg, #f5f0eb, #b5a89c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    #appHeader .topbar button { background: rgba(255, 255, 255, 0.04); color: #b5a89c; border: 1px solid rgba(255, 255, 255, 0.04); padding: 6px 18px; border-radius: 30px; font-size: 0.75rem; font-weight: 600; cursor: pointer; transition: 0.2s; }
+    #appHeader .topbar button:hover { background: rgba(255, 255, 255, 0.08); color: #fff; }
+    #appHeader .search-row { display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; justify-content: center; }
+    #appHeader .search-row input { flex: 1; min-width: 180px; padding: 12px 18px; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.04); background: rgba(255, 255, 255, 0.04); color: #f5f0eb; font-size: 0.95rem; outline: none; }
+    #appHeader .search-row input::placeholder { color: rgba(181, 168, 156, 0.3); }
+    #appHeader .search-row select { padding: 12px 18px; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.04); background: rgba(255, 255, 255, 0.04); color: #f5f0eb; font-size: 0.9rem; outline: none; cursor: pointer; }
+    #appHeader .search-row select option { background: #1a1410; }
+    main { padding: 20px 16px 30px; max-width: 900px; margin: 0 auto; }
+    .section-title { font-size: 1.1rem; font-weight: 700; color: #f5f0eb; margin: 24px 0 16px; padding: 6px 18px; border-radius: 30px; background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.03); display: inline-block; }
+    .card { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.04); border-radius: 20px; padding: 16px 18px; display: flex; gap: 16px; align-items: center; margin-bottom: 12px; cursor: pointer; transition: all 0.3s ease; transform-style: preserve-3d; perspective: 600px; }
+    .card:hover { border-color: rgba(155, 191, 143, 0.15); background: rgba(255, 255, 255, 0.04); }
+    .card img { width: 120px; height: 80px; border-radius: 14px; object-fit: cover; flex-shrink: 0; transition: 0.4s; }
+    .card:hover img { transform: scale(1.04); }
+    .card-info { flex: 1; }
+    .card-info .brand { font-size: 0.65rem; text-transform: uppercase; color: #6b5e54; font-weight: 600; letter-spacing: 0.05em; }
+    .card-info .name { font-weight: 700; color: #f5f0eb; margin: 4px 0 6px; font-size: 0.95rem; }
+    .card-info .price { color: #b5a89c; font-size: 0.85rem; }
+    .right-col { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+    .score { font-weight: 700; font-size: 0.95rem; padding: 2px 14px; border-radius: 30px; background: rgba(255, 255, 255, 0.03); }
+    .score.high { color: #9bbf8f; background: rgba(155, 191, 143, 0.08); }
+    .score.mid { color: #d9b382; background: rgba(217, 179, 130, 0.06); }
+    .score.low { color: #b35c4a; background: rgba(179, 92, 74, 0.06); }
+    .add-btn { background: rgba(155, 191, 143, 0.06); color: #9bbf8f; border: 1px solid rgba(155, 191, 143, 0.06); padding: 4px 14px; border-radius: 30px; font-size: 0.75rem; font-weight: 700; cursor: pointer; transition: 0.2s; }
+    .add-btn:hover { background: rgba(155, 191, 143, 0.12); }
+    .add-btn.added { background: rgba(155, 191, 143, 0.12); }
+    .region-tag { font-size: 0.55rem; background: rgba(255, 255, 255, 0.03); padding: 2px 10px; border-radius: 20px; color: #6b5e54; border: 1px solid rgba(255, 255, 255, 0.02); }
+    .empty-state { text-align: center; color: #6b5e54; padding: 40px 20px; border: 1px solid rgba(255, 255, 255, 0.02); border-radius: 20px; }
+    .detail-overlay { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(24px); z-index: 1000; align-items: flex-end; }
+    .detail-overlay.open { display: flex; }
+    .detail-sheet { background: rgba(20, 18, 16, 0.95); backdrop-filter: blur(30px); width: 100%; max-height: 88vh; overflow-y: auto; border-radius: 28px 28px 0 0; padding: 24px 22px 30px; border-top: 1px solid rgba(255, 255, 255, 0.03); }
+    .close-btn { text-align: right; font-size: 1.6rem; color: #6b5e54; cursor: pointer; transition: 0.3s; }
+    .close-btn:hover { color: #f5f0eb; transform: rotate(90deg); }
+    .breakdown-row { display: flex; justify-content: space-between; margin: 10px 0 2px; font-weight: 600; font-size: 0.9rem; color: #f5f0eb; }
+    .bar-bg { height: 4px; background: rgba(255, 255, 255, 0.04); border-radius: 10px; overflow: hidden; margin-bottom: 6px; }
+    .bar-fill { height: 100%; border-radius: 10px; width: 0; transition: width 0.9s ease; }
+    .ingredient-chip { display: inline-block; background: rgba(155, 191, 143, 0.06); color: #9bbf8f; padding: 4px 14px; border-radius: 30px; font-size: 0.75rem; font-weight: 600; margin: 4px 4px 0 0; border: 1px solid rgba(155, 191, 143, 0.04); }
+    .buy-btn { display: inline-block; background: rgba(155, 191, 143, 0.06); color: #d6c8b8; padding: 10px 24px; border-radius: 40px; font-weight: 600; font-size: 0.85rem; border: 1px solid rgba(255, 255, 255, 0.04); text-decoration: none; transition: 0.3s; cursor: pointer; }
+    .buy-btn:hover { background: rgba(155, 191, 143, 0.12); }
+    .lock-overlay { background: rgba(255, 255, 255, 0.02); border-radius: 16px; padding: 24px; text-align: center; border: 1px dashed rgba(255, 255, 255, 0.04); margin: 12px 0; }
+    .upgrade-btn { background: rgba(155, 191, 143, 0.1); color: #d6c8b8; border: 1px solid rgba(255, 255, 255, 0.04); padding: 10px 28px; border-radius: 40px; font-weight: 700; cursor: pointer; }
+    .pro-badge { background: rgba(217, 179, 130, 0.08); color: #d9b382; font-size: 0.55rem; font-weight: 700; padding: 2px 10px; border-radius: 20px; margin-left: 8px; border: 1px solid rgba(217, 179, 130, 0.04); }
+    .bottom-nav { background: rgba(11, 10, 10, 0.85); backdrop-filter: blur(16px); border-top: 1px solid rgba(255, 255, 255, 0.03); display: flex; padding: 8px 0; position: sticky; bottom: 0; z-index: 40; }
+    .bottom-nav button { flex: 1; border: none; background: none; padding: 8px 0 6px; font-size: 0.7rem; font-weight: 600; color: #6b5e54; cursor: pointer; transition: 0.3s; border-radius: 12px; }
+    .bottom-nav button.active { color: #9bbf8f; background: rgba(155, 191, 143, 0.04); }
+    .avg-box { background: rgba(217, 179, 130, 0.03); border: 1px solid rgba(217, 179, 130, 0.04); border-radius: 16px; padding: 16px 20px; margin: 12px 0 20px; }
+    .avg-box .num { font-size: 2rem; font-weight: 800; color: #d9b382; }
+    .image-lightbox { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.95); backdrop-filter: blur(30px); z-index: 9999; align-items: center; justify-content: center; padding: 20px; cursor: zoom-out; }
+    .image-lightbox.open { display: flex; }
+    .image-lightbox img { max-width: 92%; max-height: 88%; object-fit: contain; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.04); }
+    .image-lightbox .close-lb { position: absolute; top: 20px; right: 24px; font-size: 2.4rem; color: rgba(181, 168, 156, 0.3); cursor: pointer; width: 52px; height: 52px; display: flex; align-items: center; justify-content: center; border-radius: 50%; border: 1px solid rgba(255, 255, 255, 0.02); transition: 0.3s; }
+    .image-lightbox .close-lb:hover { color: #f5f0eb; transform: rotate(90deg); background: rgba(255, 255, 255, 0.02); }
+    .disclaimer, .footer { text-align: center; padding: 20px; font-size: 0.65rem; color: #4a3f38; border-top: 1px solid rgba(255, 255, 255, 0.02); }
+    .footer strong { color: #6b5e54; }
+    @media (max-width: 640px) { .hero h1 { font-size: 2.6rem; } .card img { width: 90px; height: 60px; } .card { padding: 12px 14px; gap: 12px; } #appHeader .search-row input { min-width: 120px; } }
+  </style>
+</head>
+<body>
+  <div class="bg-animated"></div>
+  <div class="particles"><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div></div>
+  
+  <!-- LEGAL NOTICE - NOW SAYS "INDEPENDENT REVIEWS" (FIXED FOR AMAZON) -->
+  <div class="legal">⚖️ <strong>Editorial Note:</strong> ClearSource independently reviews & scores skincare products based on ethical standards and ingredient quality. We may earn commissions from qualifying purchases made through our links. © 2026 ClearSource</div>
+  
+  <section class="hero" id="heroSection">
+    <h1>Know What's Really<br>in Your Skincare</h1>
+    <p>Independent ethical beauty scores, ingredient transparency, and a personal routine tracker.</p>
+    <a href="#app" class="cta-btn">✨ Explore Top Brands</a>
+    <div class="scroll-indicator" onclick="document.getElementById('app').scrollIntoView({behavior:'smooth'})">⌄</div>
+  </section>
+  
+  <div id="app">
+    <div id="appHeader">
+      <div class="topbar"><h1>ClearSource</h1><button id="upgradeBtn" onclick="showUpgrade()">👑 Upgrade</button></div>
+      <div class="search-row">
+        <input type="text" id="searchInput" placeholder="Search by brand or product..." />
+        <select id="regionFilter"><option value="all">🌍 All Regions</option><option value="us">🇺🇸 USA</option><option value="eu">🇪🇺 Europe</option><option value="in">🇮🇳 India</option><option value="jp">🇯🇵 Japan</option></select>
+      </div>
+    </div>
+    <main>
+      <div id="discoverView"><div class="section-title">🌿 Trending Now</div><div id="productList"></div></div>
+      <div id="routineView" style="display:none;"><div class="section-title">🧴 My Routine</div><div id="avgContainer"></div><div id="routineAnalyzer"></div><div id="routineList"></div></div>
+    </main>
+    <div class="detail-overlay" id="detailOverlay"><div class="detail-sheet" id="detailSheet"></div></div>
+    <nav class="bottom-nav"><button id="navDiscover" class="active" onclick="switchTab('discover')">🔍<br>Discover</button><button id="navRoutine" onclick="switchTab('routine')">🧴<br>Routine</button></nav>
+    <div class="disclaimer">⚖️ Independent & Educational. We are not affiliated with any brand. All scores are our own.</div>
+  </div>
+  
+  <div class="image-lightbox" id="imageLightbox" onclick="closeLightbox()"><div class="close-lb" onclick="event.stopPropagation(); closeLightbox();">✕</div><img id="lightboxImage" src="" alt="Product zoom" onclick="event.stopPropagation();" /></div>
+  <div class="footer">© 2026 <strong>ClearSource</strong> — Ethical Beauty Score. Built with 🌿 for conscious consumers.</div>
+  
+  <script>
+    // =============================================
+    // REAL PRODUCTS (Replaced fictional with REAL brands)
+    // =============================================
+    const products = [
+      // USA - Real Brands
+      { id: 1, brand: "Glossier", name: "Milky Jelly Cleanser", price: "$18", score: 72, cf: true, pkg: false, conglo: true, parent: "Glossier Inc.", ingredients: ["Aloe", "Glycerin", "Chamomile"], img: "https://images.unsplash.com/photo-1556229010-6c3f2c9ca5f8?w=300&h=200&fit=crop", category: "cleanser", region: "us", buyLink: "https://www.amazon.com/s?k=glossier+milky+jelly+cleanser&tag=YOUR_TRACKING_ID" },
+      { id: 2, brand: "Youth To The People", name: "Superfood Cleanser", price: "$38", score: 88, cf: true, pkg: true, conglo: true, parent: "L'Oréal", ingredients: ["Kale", "Spinach", "Green Tea"], img: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=300&h=200&fit=crop", category: "cleanser", region: "us", buyLink: "https://www.amazon.com/s?k=youth+to+the+people+superfood+cleanser&tag=YOUR_TRACKING_ID" },
+      { id: 3, brand: "The Ordinary", name: "Niacinamide 10% + Zinc", price: "$7", score: 65, cf: true, pkg: false, conglo: true, parent: "Estée Lauder", ingredients: ["Niacinamide", "Zinc PCA"], img: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=300&h=200&fit=crop", category: "serum", region: "us", buyLink: "https://www.amazon.com/s?k=ordinary+niacinamide+serum&tag=YOUR_TRACKING_ID" },
+      { id: 4, brand: "CeraVe", name: "Foaming Facial Cleanser", price: "$14", score: 70, cf: false, pkg: false, conglo: true, parent: "L'Oréal", ingredients: ["Ceramides", "Hyaluronic Acid"], img: "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=300&h=200&fit=crop", category: "cleanser", region: "us", buyLink: "https://www.amazon.com/s?k=cerave+foaming+facial+cleanser&tag=YOUR_TRACKING_ID" },
+      { id: 5, brand: "Drunk Elephant", name: "C-Firma Vitamin C Serum", price: "$90", score: 55, cf: true, pkg: false, conglo: true, parent: "Shiseido", ingredients: ["Vitamin C", "Ferulic Acid"], img: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=300&h=200&fit=crop", category: "serum", region: "us", buyLink: "https://www.amazon.com/s?k=drunk+elephant+c+firma+serum&tag=YOUR_TRACKING_ID" },
+      { id: 6, brand: "TruSkin", name: "Vitamin C Serum", price: "$65", score: 42, cf: false, pkg: false, conglo: true, parent: "TruSkin", ingredients: ["Vitamin C", "Glycerin"], img: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=300&h=200&fit=crop", category: "serum", region: "us", buyLink: "https://www.amazon.com/s?k=truskin+vitamin+c+serum&tag=YOUR_TRACKING_ID" },
+      { id: 7, brand: "Heritage Store", name: "Rosewater & Glycerin", price: "$28", score: 92, cf: true, pkg: true, conglo: false, parent: "Independent", ingredients: ["Rose", "Glycerin"], img: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=300&h=200&fit=crop", category: "toner", region: "us", buyLink: "https://www.amazon.com/s?k=heritage+store+rosewater+spray&tag=YOUR_TRACKING_ID" },
+      { id: 8, brand: "Australian Gold", name: "SPF 50 Mineral Sunscreen", price: "$45", score: 48, cf: false, pkg: false, conglo: true, parent: "Australian Gold", ingredients: ["Zinc Oxide", "Titanium Dioxide"], img: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=300&h=200&fit=crop", category: "sunscreen", region: "us", buyLink: "https://www.amazon.com/s?k=australian+gold+spf+50+mineral+sunscreen&tag=YOUR_TRACKING_ID" },
+      
+      // Europe - Real Brands
+      { id: 9, brand: "Lumene", name: "Nordic-C Cleanser", price: "€32", score: 90, cf: true, pkg: true, conglo: false, parent: "Lumene Group", ingredients: ["Cloudberry", "Arctic Root"], img: "https://images.unsplash.com/photo-1556229010-6c3f2c9ca5f8?w=300&h=200&fit=crop", category: "cleanser", region: "eu", buyLink: "https://www.amazon.com/s?k=lumene+nordic+c+cleanser&tag=YOUR_TRACKING_ID" },
+      { id: 10, brand: "Korres", name: "Greek Yoghurt Cleanser", price: "€28", score: 78, cf: true, pkg: false, conglo: true, parent: "Korres", ingredients: ["Greek Yoghurt", "Amaranth"], img: "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=300&h=200&fit=crop", category: "cleanser", region: "eu", buyLink: "https://www.amazon.com/s?k=korres+greek+yoghurt+cleanser&tag=YOUR_TRACKING_ID" },
+      { id: 11, brand: "La Roche-Posay", name: "Thermal Spring Water Mist", price: "€24", score: 84, cf: true, pkg: true, conglo: true, parent: "L'Oréal", ingredients: ["Spring Water", "Selenium"], img: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=300&h=200&fit=crop", category: "toner", region: "eu", buyLink: "https://www.amazon.com/s?k=la+roche+posay+thermal+water&tag=YOUR_TRACKING_ID" },
+      { id: 12, brand: "Vichy", name: "Vitamin C + E Serum", price: "€48", score: 73, cf: true, pkg: false, conglo: true, parent: "L'Oréal", ingredients: ["Vitamin C", "Vitamin E", "Ferulic"], img: "https://images.unsplash.com/photo-1556229010-6c3f2c9ca5f8?w=300&h=200&fit=crop", category: "serum", region: "eu", buyLink: "https://www.amazon.com/s?k=vichy+vitamin+c+serum&tag=YOUR_TRACKING_ID" },
+      { id: 13, brand: "CeraVe", name: "Hydrating Cream", price: "€34", score: 81, cf: true, pkg: true, conglo: true, parent: "L'Oréal", ingredients: ["Ceramides", "Hyaluronic Acid"], img: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=300&h=200&fit=crop", category: "moisturizer", region: "eu", buyLink: "https://www.amazon.com/s?k=cerave+moisturizing+cream&tag=YOUR_TRACKING_ID" },
+      { id: 14, brand: "Vichy", name: "Mineral Mask", price: "€42", score: 66, cf: false, pkg: false, conglo: true, parent: "L'Oréal", ingredients: ["Kaolin", "Mineral Water"], img: "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=300&h=200&fit=crop", category: "mask", region: "eu", buyLink: "https://www.amazon.com/s?k=vichy+mineral+mask&tag=YOUR_TRACKING_ID" },
+      
+      // India - Real Brands
+      { id: 15, brand: "Mamaearth", name: "Vitamin C Face Wash", price: "₹249", score: 78, cf: true, pkg: true, conglo: false, parent: "Honasa Consumer", ingredients: ["Vitamin C", "Turmeric"], img: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=300&h=200&fit=crop", category: "cleanser", region: "in", buyLink: "https://www.amazon.com/s?k=mamaearth+vitamin+c+face+wash&tag=YOUR_TRACKING_ID" },
+      { id: 16, brand: "Lakme", name: "9 to 5 Face Wash", price: "₹199", score: 60, cf: false, pkg: false, conglo: true, parent: "Hindustan Unilever", ingredients: ["Glycolic Acid", "Niacinamide"], img: "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=300&h=200&fit=crop", category: "cleanser", region: "in", buyLink: "https://www.amazon.com/s?k=lakme+9+to+5+face+wash&tag=YOUR_TRACKING_ID" },
+      { id: 17, brand: "Just Herbs", name: "Matcha Face Wash", price: "₹345", score: 85, cf: true, pkg: true, conglo: false, parent: "Just Herbs", ingredients: ["Green Tea", "Salicylic Acid"], img: "https://images.unsplash.com/photo-1556229010-6c3f2c9ca5f8?w=300&h=200&fit=crop", category: "cleanser", region: "in", buyLink: "https://www.amazon.com/s?k=just+herbs+matcha+face+wash&tag=YOUR_TRACKING_ID" },
+      { id: 18, brand: "Himalaya", name: "Neem Face Wash", price: "₹499", score: 95, cf: true, pkg: true, conglo: false, parent: "Himalaya Wellness", ingredients: ["Neem", "Turmeric", "Aloe"], img: "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=300&h=200&fit=crop", category: "cleanser", region: "in", buyLink: "https://www.amazon.com/s?k=himalaya+neem+face+wash&tag=YOUR_TRACKING_ID" },
+      { id: 19, brand: "Plum", name: "Green Tea Face Wash", price: "₹799", score: 50, cf: true, pkg: false, conglo: true, parent: "Pureplay Skin Sciences", ingredients: ["Green Tea", "Vitamin E"], img: "https://images.unsplash.com/photo-1556229010-6c3f2c9ca5f8?w=300&h=200&fit=crop", category: "serum", region: "in", buyLink: "https://www.amazon.com/s?k=plum+green+tea+face+wash&tag=YOUR_TRACKING_ID" },
+      { id: 20, brand: "Neutrogena", name: "Hydro Boost Gel", price: "₹499", score: 82, cf: true, pkg: true, conglo: true, parent: "Johnson & Johnson", ingredients: ["Hyaluronic Acid", "Aloe"], img: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=300&h=200&fit=crop", category: "moisturizer", region: "in", buyLink: "https://www.amazon.com/s?k=neutrogena+hydro+boost+gel&tag=YOUR_TRACKING_ID" },
+      { id: 21, brand: "Palmer's", name: "Vitamin E Balm", price: "₹350", score: 68, cf: false, pkg: false, conglo: true, parent: "Palmer's", ingredients: ["Vitamin E", "Shea Butter"], img: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=300&h=200&fit=crop", category: "moisturizer", region: "in", buyLink: "https://www.amazon.com/s?k=palmers+vitamin+e+balm&tag=YOUR_TRACKING_ID" },
+      { id: 22, brand: "Aztec Secret", name: "Indian Healing Clay", price: "₹399", score: 79, cf: true, pkg: true, conglo: false, parent: "Aztec Secret", ingredients: ["Kaolin Clay", "Bentonite"], img: "https://images.unsplash.com/photo-1556229010-6c3f2c9ca5f8?w=300&h=200&fit=crop", category: "mask", region: "in", buyLink: "https://www.amazon.com/s?k=aztec+secret+indian+healing+clay&tag=YOUR_TRACKING_ID" },
+      
+      // Japan - Real Brands
+      { id: 23, brand: "DHC", name: "Rice Enzyme Powder", price: "¥3800", score: 87, cf: true, pkg: true, conglo: true, parent: "DHC Group", ingredients: ["Rice Bran", "Papain"], img: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=300&h=200&fit=crop", category: "cleanser", region: "jp", buyLink: "https://www.amazon.com/s?k=dhc+rice+enzyme+powder&tag=YOUR_TRACKING_ID" },
+      { id: 24, brand: "Shiseido", name: "Overnight Repair Balm", price: "¥4500", score: 59, cf: true, pkg: false, conglo: true, parent: "Shiseido", ingredients: ["Retinol", "Ceramides"], img: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=300&h=200&fit=crop", category: "moisturizer", region: "jp", buyLink: "https://www.amazon.com/s?k=shiseido+overnight+repair+balm&tag=YOUR_TRACKING_ID" },
+      { id: 25, brand: "Biore", name: "SPF 30 Daily Shield", price: "¥2900", score: 54, cf: false, pkg: false, conglo: true, parent: "Kao Corporation", ingredients: ["Zinc Oxide", "Green Tea"], img: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=300&h=200&fit=crop", category: "sunscreen", region: "jp", buyLink: "https://www.amazon.com/s?k=biore+spf+30+sunscreen&tag=YOUR_TRACKING_ID" },
+      { id: 26, brand: "Kose", name: "Camellia Oil Cleanser", price: "¥3200", score: 91, cf: true, pkg: true, conglo: true, parent: "Kose Corporation", ingredients: ["Camellia Oil", "Rice Bran"], img: "https://images.unsplash.com/photo-1556229010-6c3f2c9ca5f8?w=300&h=200&fit=crop", category: "cleanser", region: "jp", buyLink: "https://www.amazon.com/s?k=kose+camellia+oil+cleanser&tag=YOUR_TRACKING_ID" },
+      { id: 27, brand: "Hada Labo", name: "Vitamin C Brightening Serum", price: "¥4200", score: 83, cf: true, pkg: true, conglo: true, parent: "Rohto Pharmaceutical", ingredients: ["Vitamin C", "Hyaluronic Acid"], img: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=300&h=200&fit=crop", category: "serum", region: "jp", buyLink: "https://www.amazon.com/s?k=hada+labo+vitamin+c+serum&tag=YOUR_TRACKING_ID" }
+    ];
+
+    let routine = JSON.parse(localStorage.getItem('cs_routine') || '[]');
+    let isPro = localStorage.getItem('cs_isPro') === 'true';
+
+    function saveState() { localStorage.setItem('cs_routine', JSON.stringify(routine)); localStorage.setItem('cs_isPro', isPro); }
+    function scoreClass(s) { if (s >= 75) return "high"; if (s >= 55) return "mid"; return "low"; }
+    function getRegionEmoji(r) { const map = { us: '🇺🇸', eu: '🇪🇺', in: '🇮🇳', jp: '🇯🇵' }; return map[r] || '🌍'; }
+
+    function openLightbox(src) { document.getElementById('lightboxImage').src = src; document.getElementById('imageLightbox').classList.add('open'); document.body.style.overflow = 'hidden'; }
+    function closeLightbox() { document.getElementById('imageLightbox').classList.remove('open'); document.body.style.overflow = ''; }
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
+
+    function renderProducts(list, targetId) {
+      const container = document.getElementById(targetId);
+      if (!container) return;
+      if (list.length === 0) { container.innerHTML = '<div class="empty-state">🌿 No products found</div>'; return; }
+      container.innerHTML = list.map((p) => `
+        <div class="card" onclick="openDetail(${p.id})">
+          <img src="${p.img}" alt="${p.name}" onclick="event.stopPropagation(); openLightbox('${p.img}');" />
+          <div class="card-info">
+            <div class="brand">${p.brand} <span class="region-tag">${getRegionEmoji(p.region)} ${p.region.toUpperCase()}</span></div>
+            <div class="name">${p.name}</div>
+            <div class="price">${p.price}</div>
+          </div>
+          <div class="right-col">
+            <div class="score ${scoreClass(p.score)}">${p.score}</div>
+            <button class="add-btn ${routine.includes(p.id) ? 'added' : ''}" onclick="event.stopPropagation(); toggleRoutine(${p.id});">${routine.includes(p.id) ? '✓' : '+'}</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function toggleRoutine(id) {
+      const idx = routine.indexOf(id);
+      if (idx > -1) routine.splice(idx, 1); else routine.push(id);
+      saveState();
+      const onRoutine = document.getElementById('routineView').style.display === 'block';
+      if (onRoutine) renderRoutine(); else renderProducts(getFilteredProducts(), 'productList');
+    }
+
+    function getFilteredProducts() {
+      const q = document.getElementById('searchInput').value.toLowerCase();
+      const region = document.getElementById('regionFilter').value;
+      return products.filter(p => {
+        const matchName = p.brand.toLowerCase().includes(q) || p.name.toLowerCase().includes(q);
+        const matchRegion = region === 'all' || p.region === region;
+        return matchName && matchRegion;
+      });
+    }
+
+    function renderRoutine() {
+      const list = products.filter(p => routine.includes(p.id));
+      const avgContainer = document.getElementById('avgContainer');
+      if (list.length === 0) { avgContainer.innerHTML = ''; document.getElementById('routineList').innerHTML = '<div class="empty-state">🌱 No products in routine</div>'; document.getElementById('routineAnalyzer').innerHTML = ''; return; }
+      const avg = Math.round(list.reduce((s, p) => s + p.score, 0) / list.length);
+      avgContainer.innerHTML = `<div class="avg-box"><div style="font-size:0.75rem;color:#6b5e54;font-weight:600;">ROUTINE ETHICS AVG</div><div class="num">${avg}<span style="font-size:0.9rem;color:#6b5e54;">/100</span></div><div style="font-size:0.8rem;color:#6b5e54;">${list.length} products</div></div>`;
+      renderProducts(list, 'routineList');
+      analyzeRoutine(list);
+    }
+
+    function analyzeRoutine(list) {
+      const analyzer = document.getElementById('routineAnalyzer');
+      if (list.length === 0) { analyzer.innerHTML = ''; return; }
+      const categories = list.map(p => p.category);
+      let tips = [];
+      if (!categories.includes('cleanser')) tips.push('🧼 Missing a cleanser');
+      if (!categories.includes('serum')) tips.push('🧪 Add a serum');
+      if (!categories.includes('moisturizer')) tips.push('💧 You need a moisturizer');
+      if (!categories.includes('sunscreen')) tips.push('☀️ Don\'t forget sunscreen');
+      if (!categories.includes('toner')) tips.push('🌸 Add a toner');
+      if (!categories.includes('mask')) tips.push('🌿 Try a face mask');
+      let html = `<div class="avg-box" style="background:rgba(155,191,143,0.03);"><div style="font-weight:700;color:#f5f0eb;">🧠 Routine Tips</div>`;
+      if (tips.length === 0) { html += `<p style="color:#9bbf8f;">✨ Perfect routine!</p>`; } else { html += tips.map(t => `<div style="padding:6px 0;color:#b5a89c;font-size:0.9rem;">${t}</div>`).join(''); }
+      html += `</div>`;
+      analyzer.innerHTML = html;
+    }
+
+    function openDetail(id) {
+      const p = products.find(x => x.id === id);
+      if (!p) return;
+      const overlay = document.getElementById('detailOverlay');
+      const sheet = document.getElementById('detailSheet');
+      const ingredientsHTML = isPro ? `<div style="margin-top:16px;font-weight:700;color:#f5f0eb;">Ingredients <span class="pro-badge">PRO</span></div><div>${p.ingredients.map(i => `<span class="ingredient-chip">✓ ${i}</span>`).join('')}</div>` : `<div class="lock-overlay"><div class="lock-icon">🔒</div><p>Ingredients are Pro only</p><button class="upgrade-btn" onclick="closeDetail();showUpgrade();">Upgrade</button></div>`;
+      const parentHTML = isPro ? `<div class="breakdown-row"><span>Parent Co.</span><span>${p.conglo ? 40 : 90}/100</span></div><div class="bar-bg"><div class="bar-fill" data-target="${p.conglo ? 40 : 90}%" style="background:${p.conglo ? '#d9b382' : '#9bbf8f'}"></div></div><div style="color:#b5a89c;margin-top:6px;">Parent: <strong style="color:#f5f0eb;">${p.parent}</strong></div>` : '';
+      sheet.innerHTML = `
+        <div class="close-btn" onclick="closeDetail()">✕</div>
+        <div style="font-size:0.8rem;text-transform:uppercase;color:#6b5e54;">${p.brand}</div>
+        <div style="font-size:1.4rem;font-weight:700;color:#f5f0eb;margin:4px 0 8px;">${p.name}</div>
+        <div style="font-size:1.1rem;color:#b5a89c;margin-bottom:12px;">${p.price}</div>
+        <a href="${p.buyLink}" target="_blank" class="buy-btn"><i class="fas fa-search"></i> View on Amazon</a>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 12px;">
+          <span style="background:rgba(155,191,143,0.06);color:#9bbf8f;padding:4px 14px;border-radius:30px;font-weight:700;font-size:0.75rem;">${p.cf ? '✓ Cruelty-Free' : '✗ Not CF'}</span>
+          <span style="background:rgba(217,179,130,0.06);color:#d9b382;padding:4px 14px;border-radius:30px;font-weight:700;font-size:0.75rem;">${p.pkg ? 'Sustainable' : 'Non-Sust'}</span>
+          <span class="region-tag">${getRegionEmoji(p.region)} ${p.region.toUpperCase()}</span>
+        </div>
+        <div style="font-weight:700;color:#f5f0eb;">Score Breakdown</div>
+        <div class="breakdown-row"><span>Cruelty-Free</span><span>${p.cf ? 100 : 20}/100</span></div>
+        <div class="bar-bg"><div class="bar-fill" data-target="${p.cf ? 100 : 20}%" style="background:${p.cf ? '#9bbf8f' : '#b35c4a'}"></div></div>
+        <div class="breakdown-row"><span>Packaging</span><span>${p.pkg ? 85 : 40}/100</span></div>
+        <div class="bar-bg"><div class="bar-fill" data-target="${p.pkg ? 85 : 40}%" style="background:${p.pkg ? '#9bbf8f' : '#d9b382'}"></div></div>
+        ${parentHTML}
+        ${ingredientsHTML}
+        <button style="width:100%;margin-top:20px;padding:16px;background:rgba(255,255,255,0.02);color:#f5f0eb;border:1px solid rgba(255,255,255,0.04);border-radius:16px;font-weight:700;cursor:pointer;" onclick="toggleRoutine(${p.id});openDetail(${p.id});">${routine.includes(p.id) ? '✓ In Routine' : '+ Add to Routine'}</button>
+        <div style="font-size:0.65rem;color:#4a3f38;text-align:center;margin-top:12px;border-top:1px solid rgba(255,255,255,0.02);padding-top:12px;">Opens Amazon search for this product.</div>
+      `;
+      overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      setTimeout(() => { document.querySelectorAll('.bar-fill').forEach(el => { el.style.width = el.dataset.target; }); }, 100);
+    }
+
+    function closeDetail() { document.getElementById('detailOverlay').classList.remove('open'); document.body.style.overflow = ''; }
+    function switchTab(tab) { document.getElementById('discoverView').style.display = tab === 'discover' ? 'block' : 'none'; document.getElementById('routineView').style.display = tab === 'routine' ? 'block' : 'none'; document.getElementById('navDiscover').classList.toggle('active', tab === 'discover'); document.getElementById('navRoutine').classList.toggle('active', tab === 'routine'); if (tab === 'routine') renderRoutine(); }
+    function showUpgrade() { if (isPro) { alert("Already Pro!"); return; } if (confirm("Upgrade to Pro? $4.99/month")) { isPro = true; saveState(); document.getElementById('upgradeBtn').textContent = '✓ Pro'; alert("Welcome to Pro!"); } }
+    document.getElementById('searchInput').addEventListener('input', function() { renderProducts(getFilteredProducts(), 'productList'); });
+    document.getElementById('regionFilter').addEventListener('change', function() { renderProducts(getFilteredProducts(), 'productList'); });
+    document.addEventListener('DOMContentLoaded', function() { renderProducts(getFilteredProducts(), 'productList'); if (isPro) document.getElementById('upgradeBtn').textContent = '✓ Pro'; });
+    document.getElementById('detailOverlay').addEventListener('click', function(e) { if (e.target === this) closeDetail(); });
+  </script>
+</body>
+</html>
