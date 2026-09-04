@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EthicScore — Scan. Score. Share.</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background: #0b0a0a; color: #f5f0eb; min-height: 100vh; }
+    .bg-animated { position: fixed; inset: 0; z-index: -2; background: radial-gradient(ellipse at 20% 50%, #1a1410, #0d0b0a 60%, #050404); }
+    .bg-animated::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 70% 30%, rgba(155, 191, 143, 0.06), transparent 60%), radial-gradient(circle at 30% 70%, rgba(217, 179, 130, 0.04), transparent 60%); animation: shiftBg 20s ease-in-out infinite alternate; }
+    @keyframes shiftBg { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(-5%, -5%) scale(1.1); } }
+    .particles { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
+    .particle { position: absolute; width: 4px; height: 4px; background: rgba(155, 191, 143, 0.2); border-radius: 50%; animation: floatParticle 15s infinite alternate ease-in-out; }
+    .particle:nth-child(1) { left: 10%; top: 20%; animation-duration: 18s; width: 6px; height: 6px; }
+    .particle:nth-child(2) { left: 80%; top: 15%; animation-duration: 12s; width: 3px; height: 3px; background: rgba(217,179,130,0.15); }
+    .particle:nth-child(3) { left: 50%; top: 70%; animation-duration: 20s; width: 5px; height: 5px; }
+    .particle:nth-child(4) { left: 25%; top: 85%; animation-duration: 14s; width: 4px; height: 4px; }
+    .particle:nth-child(5) { left: 70%; top: 60%; animation-duration: 22s; width: 7px; height: 7px; background: rgba(217,179,130,0.1); }
+    .particle:nth-child(6) { left: 15%; top: 45%; animation-duration: 16s; width: 3px; height: 3px; }
+    .particle:nth-child(7) { left: 90%; top: 40%; animation-duration: 19s; width: 5px; height: 5px; background: rgba(155,191,143,0.15); }
+    .particle:nth-child(8) { left: 35%; top: 10%; animation-duration: 13s; width: 4px; height: 4px; }
+    .particle:nth-child(9) { left: 60%; top: 90%; animation-duration: 21s; width: 6px; height: 6px; background: rgba(217,179,130,0.12); }
+    .particle:nth-child(10) { left: 5%; top: 75%; animation-duration: 11s; width: 3px; height: 3px; }
+    .particle:nth-child(11) { left: 45%; top: 35%; animation-duration: 24s; width: 5px; height: 5px; }
+    .particle:nth-child(12) { left: 75%; top: 25%; animation-duration: 17s; width: 4px; height: 4px; }
+    @keyframes floatParticle { 0% { transform: translate(0, 0) scale(1); opacity: 0.2; } 100% { transform: translate(30px, -25px) scale(1.8); opacity: 0.6; } }
+    
+    /* ----- HERO ----- */
+    .hero { min-height: 70vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 40px 20px 60px; }
+    .hero h1 { font-size: 3.6rem; font-weight: 800; letter-spacing: -0.04em; line-height: 1.05; max-width: 720px; background: linear-gradient(135deg, #f5f0eb 0%, #d9b382 40%, #9bbf8f 80%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: fadeUp 1.2s ease; }
+    .hero p { font-size: 1.2rem; color: #b5a89c; max-width: 520px; margin: 16px auto 28px; line-height: 1.7; animation: fadeUp 1.4s ease; }
+    .hero .cta-btn { background: linear-gradient(135deg, #9bbf8f, #d9b382); color: #0b0a0a; padding: 16px 44px; border-radius: 60px; font-weight: 700; font-size: 1.1rem; border: none; cursor: pointer; transition: 0.3s; text-decoration: none; display: inline-block; box-shadow: 0 8px 40px rgba(155, 191, 143, 0.2); margin: 6px; }
+    .hero .cta-btn:hover { transform: scale(1.04); box-shadow: 0 12px 56px rgba(155, 191, 143, 0.3); }
+    .hero .cta-btn-secondary { background: rgba(255,255,255,0.04); color: #b5a89c; border: 1px solid rgba(255,255,255,0.06); box-shadow: none; }
+    .hero .cta-btn-secondary:hover { background: rgba(255,255,255,0.08); box-shadow: 0 8px 30px rgba(0,0,0,0.2); }
+    .scroll-arrow { margin-top: 30px; font-size: 2rem; color: rgba(181, 168, 156, 0.15); animation: bounceDown 2.4s infinite; cursor: pointer; }
+    @keyframes bounceDown { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(10px); } }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    
+    .legal { background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(8px); padding: 8px 16px; text-align: center; font-size: 0.6rem; color: #6b5e54; border-bottom: 1px solid rgba(255, 255, 255, 0.02); }
+    .legal strong { color: #b5a89c; }
+
+    /* ----- SCANNER SECTION ----- */
+    #scannerSection {
+      background: rgba(0,0,0,0.3);
+      backdrop-filter: blur(10px);
+      padding: 30px 20px;
+      border-top: 1px solid rgba(255,255,255,0.02);
+      border-bottom: 1px solid rgba(255,255,255,0.02);
+      text-align: center;
+    }
+    #scannerSection h2 { font-size: 1.6rem; font-weight: 700; color: #f5f0eb; margin-bottom: 6px; }
+    #scannerSection p { color: #6b5e54; font-size: 0.9rem; margin-bottom: 16px; }
+    .scanner-box {
+      background: rgba(255, 255, 255, 0.02);
+      border: 2px dashed rgba(155, 191, 143, 0.12);
+      border-radius: 24px;
+      padding: 20px;
+      max-width: 420px;
+      margin: 0 auto;
+      position: relative;
+    }
+    #video { width: 100%; border-radius: 16px; background: #1a1410; display: none; max-height: 300px; object-fit: cover; }
+    .scanner-status { color: #6b5e54; font-size: 0.85rem; padding: 8px 0; }
+    
+    /* ----- RESULT DISPLAY ----- */
+    #scannerResult {
+      margin-top: 16px;
+      padding: 16px;
+      border-radius: 16px;
+      background: rgba(155,191,143,0.04);
+      border: 1px solid rgba(155,191,143,0.06);
+      display: none;
+      text-align: left;
+    }
+    #scannerResult .product-name { font-weight: 700; font-size: 1.2rem; color: #f5f0eb; }
+    #scannerResult .product-brand { color: #6b5e54; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.04em; }
+    #scannerResult .product-price { color: #b5a89c; font-size: 1rem; margin: 4px 0; }
+    #scannerResult .product-score { display: inline-block; padding: 4px 16px; border-radius: 30px; font-weight: 700; font-size: 1.1rem; margin-top: 8px; }
+    #scannerResult .product-score.high { background: rgba(155,191,143,0.12); color: #9bbf8f; }
+    #scannerResult .product-score.mid { background: rgba(217,179,130,0.1); color: #d9b382; }
+    #scannerResult .product-score.low { background: rgba(179,92,74,0.1); color: #b35c4a; }
+    #scannerResult .product-image { max-width: 100px; max-height: 100px; border-radius: 12px; margin: 8px 0; object-fit: cover; }
+    #scannerResult .product-ingredients { color: #6b5e54; font-size: 0.8rem; margin-top: 6px; }
+    .result-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+    .share-btn { padding: 8px 18px; border-radius: 30px; font-weight: 600; font-size: 0.8rem; border: none; cursor: pointer; transition: 0.3s; display: inline-flex; align-items: center; gap: 6px; text-decoration: none; }
+    .share-btn:hover { transform: scale(1.04); }
+    .share-btn-whatsapp { background: #25D366; color: #fff; }
+    .share-btn-instagram { background: #E4405F; color: #fff; }
+    .share-btn-reddit { background: #FF4500; color: #fff; }
+    .share-btn-twitter { background: #1DA1F2; color: #fff; }
+    .share-btn-copy { background: rgba(255,255,255,0.04); color: #b5a89c; border: 1px solid rgba(255,255,255,0.04); }
+
+    .btn-scan { background: linear-gradient(135deg, #9bbf8f, #d9b382); color: #0b0a0a; padding: 12px 28px; border-radius: 60px; font-weight: 700; font-size: 0.95rem; border: none; cursor: pointer; transition: 0.3s; margin-top: 8px; }
+    .btn-scan:hover { transform: scale(1.03); box-shadow: 0 8px 30px rgba(155,191,143,0.2); }
+    .btn-scan:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+    .btn-stop { background: rgba(255,255,255,0.04); color: #b5a89c; border: 1px solid rgba(255,255,255,0.04); padding: 12px 28px; border-radius: 60px; font-weight: 700; font-size: 0.95rem; cursor: pointer; transition: 0.3s; margin-top: 8px; display: none; }
+    .btn-stop:hover { background: rgba(255,255,255,0.08); }
+
+    /* ----- APP ----- */
+    #appHeader { background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(16px); padding: 16px 20px; text-align: center; border-bottom: 1px solid rgba(255, 255, 255, 0.03); position: sticky; top: 0; z-index: 50; }
+    #appHeader .topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    #appHeader .topbar h1 { font-size: 1.8rem; font-weight: 800; background: linear-gradient(135deg, #f5f0eb, #b5a89c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    #appHeader .topbar button { background: rgba(255, 255, 255, 0.04); color: #b5a89c; border: 1px solid rgba(255, 255, 255, 0.04); padding: 6px 18px; border-radius: 30px; font-size: 0.75rem; font-weight: 600; cursor: pointer; transition: 0.2s; }
+    #appHeader .topbar button:hover { background: rgba(255, 255, 255, 0.08); color: #fff; }
+    #appHeader .search-row { display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; justify-content: center; }
+    #appHeader .search-row input { flex: 1; min-width: 180px; padding: 12px 18px; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.04); background: rgba(255, 255, 255, 0.04); color: #f5f0eb; font-size: 0.95rem; outline: none; }
+    #appHeader .search-row input::placeholder { color: rgba(181, 168, 156, 0.3); }
+    #appHeader .search-row select { padding: 12px 18px; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.04); background: rgba(255, 255, 255, 0.04); color: #f5f0eb; font-size: 0.9rem; outline: none; cursor: pointer; }
+    main { padding: 20px 16px 30px; max-width: 900px; margin: 0 auto; }
+    .section-title { font-size: 1.1rem; font-weight: 700; color: #f5f0eb; margin: 24px 0 16px; padding: 6px 18px; border-radius: 30px; background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.03); display: inline-block; }
+    .card { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.04); border-radius: 20px; padding: 16px 18px; display: flex; gap: 16px; align-items: center; margin-bottom: 12px; cursor: pointer; transition: all 0.3s ease; transform-style: preserve-3d; perspective: 600px; }
+    .card:hover { border-color: rgba(155, 191, 143, 0.15); background: rgba(255, 255, 255, 0.04); }
+    .card img { width: 120px; height: 80px; border-radius: 14px; object-fit: cover; flex-shrink: 0; transition: 0.4s; }
+    .card:hover img { transform: scale(1.04); }
+    .card-info { flex: 1; }
+    .card-info .brand { font-size: 0.65rem; text-transform: uppercase; color: #6b5e54; font-weight: 600; letter-spacing: 0.05em; }
+    .card-info .name { font-weight: 700; color: #f5f0eb; margin: 4px 0 6px; font-size: 0.95rem; }
+    .card-info .price { color: #b5a89c; font-size: 0.85rem; }
+    .right-col { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+    .score { font-weight: 700; font-size: 0.95rem; padding: 2px 14px; border-radius: 30px; background: rgba(255, 255, 255, 0.03); }
+    .score.high { color: #9bbf8f; background: rgba(155, 191, 143, 0.08); }
+    .score.mid { color: #d9b382; background: rgba(217, 179, 130, 0.06); }
+    .score.low { color: #b35c4a; background: rgba(179, 92, 74, 0.06); }
+    .add-btn { background: rgba(155, 191, 143, 0.06); color: #9bbf8f; border: 1px solid rgba(155, 191, 143, 0.06); padding: 4px 14px; border-radius: 30px; font-size: 0.75rem; font-weight: 700; cursor: pointer; transition: 0.2s; }
+    .add-btn:hover { background: rgba(155, 191, 143, 0.12); }
+    .add-btn.added { background: rgba(155, 191, 143, 0.12); }
+    .region-tag { font-size: 0.55rem; background: rgba(255, 255, 255, 0.03); padding: 2px 10px; border-radius: 20px; color: #6b5e54; border: 1px solid rgba(255, 255, 255, 0.02); }
+    .empty-state { text-align: center; color: #6b5e54; padding: 40px 20px; border: 1px solid rgba(255, 255, 255, 0.02); border-radius: 20px; }
+    .detail-overlay { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(24px); z-index: 1000; align-items: flex-end; }
+    .detail-overlay.open { display: flex; }
+    .detail-sheet { background: rgba(20, 18, 16, 0.95); backdrop-filter: blur(30px); width: 100%; max-height: 88vh; overflow-y: auto; border-radius: 28px 28px 0 0; padding: 24px 22px 30px; border-top: 1px solid rgba(255, 255, 255, 0.03); }
+    .close-btn { text-align: right; font-size: 1.6rem; color: #6b5e54; cursor: pointer; transition: 0.3s; }
+    .close-btn:hover { color: #f5f0eb; transform: rotate(90deg); }
+    .review-text { color: #b5a89c; line-height: 1.7; font-size: 0.95rem; margin: 12px 0; }
+    .best-for { background: rgba(155,191,143,0.04); padding: 12px 16px; border-radius: 12px; border-left: 3px solid #9bbf8f; margin: 12px 0; color: #d6c8b8; font-size: 0.9rem; }
+    .best-for strong { color: #f5f0eb; }
+    .pros-cons { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 12px 0; }
+    .pros, .cons { background: rgba(255,255,255,0.02); border-radius: 12px; padding: 12px 16px; border: 1px solid rgba(255,255,255,0.02); }
+    .pros h4, .cons h4 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 8px; }
+    .pros h4 { color: #9bbf8f; }
+    .cons h4 { color: #b35c4a; }
+    .pros li, .cons li { font-size: 0.85rem; color: #b5a89c; list-style: none; padding: 4px 0; }
+    .pros li::before { content: '✓ '; color: #9bbf8f; font-weight: 700; }
+    .cons li::before { content: '✗ '; color: #b35c4a; font-weight: 700; }
+    .breakdown-row { display: flex; justify-content: space-between; margin: 10px 0 2px; font-weight: 600; font-size: 0.9rem; color: #f5f0eb; }
+    .bar-bg { height: 4px; background: rgba(255, 255, 255, 0.04); border-radius: 10px; overflow: hidden; margin-bottom: 6px; }
+    .bar-fill { height: 100%; border-radius: 10px; width: 0; transition: width 0.9s ease; }
+    .ingredient-chip { display: inline-block; background: rgba(155, 191, 143, 0.06); color: #9bbf8f; padding: 4px 14px; border-radius: 30px; font-size: 0.75rem; font-weight: 600; margin: 4px 4px 0 0; border: 1px solid rgba(155, 191, 143, 0.04); }
+    .buy-btn { display: inline-block; background: rgba(155, 191, 143, 0.06); color: #d6c8b8; padding: 10px 24px; border-radius: 40px; font-weight: 600; font-size: 0.85rem; border: 1px solid rgba(255, 255, 255, 0.04); text-decoration: none; transition: 0.3s; cursor: pointer; }
+    .buy-btn:hover { background: rgba(155, 191, 143, 0.12); }
+    .lock-overlay { background: rgba(255, 255, 255, 0.02); border-radius: 16px; padding: 24px; text-align: center; border: 1px dashed rgba(255, 255, 255, 0.04); margin: 12px 0; }
+    .upgrade-btn { background: rgba(155, 191, 143, 0.1); color: #d6c8b8; border: 1px solid rgba(255, 255, 255, 0.04); padding: 10px 28px; border-radius: 40px; font-weight: 700; cursor: pointer; }
+    .pro-badge { background: rgba(217, 179, 130, 0.08); color: #d9b382; font-size: 0.55rem; font-weight: 700; padding: 2px 10px; border-radius: 20px; margin-left: 8px; border: 1px solid rgba(217, 179, 130, 0.04); }
+    .bottom-nav { background: rgba(11, 10, 10, 0.85); backdrop-filter: blur(16px); border-top: 1px solid rgba(255, 255, 255, 0.03); display: flex; padding: 8px 0; position: sticky; bottom: 0; z-index: 40; }
+    .bottom-nav button { flex: 1; border: none; background: none; padding: 8px 0 6px; font-size: 0.7rem; font-weight: 600; color: #6b5e54; cursor: pointer; transition: 0.3s; border-radius: 12px; }
+    .bottom-nav button.active { color: #9bbf8f; background: rgba(155, 191, 143, 0.04); }
+    .avg-box { background: rgba(217, 179, 130, 0.03); border: 1px solid rgba(217, 179, 130, 0.04); border-radius: 16px; padding: 16px 20px; margin: 12px 0 20px; }
+    .avg-box .num { font-size: 2rem; font-weight: 800; color: #d9b382; }
+    .image-lightbox { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.95); backdrop-filter: blur(30px); z-index: 9999; align-items: center; justify-content: center; padding: 20px; cursor: zoom-out; }
+    .image-lightbox.open { display: flex; }
+    .image-lightbox img { max-width: 92%; max-height: 88%; object-fit: contain; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.04); }
+    .image-lightbox .close-lb { position: absolute; top: 20px; right: 24px; font-size: 2.4rem; color: rgba(181, 168, 156, 0.3); cursor: pointer; width: 52px; height: 52px; display: flex; align-items: center; justify-content: center; border-radius: 50%; border: 1px solid rgba(255, 255, 255, 0.02); transition: 0.3s; }
+    .image-lightbox .close-lb:hover { color: #f5f0eb; transform: rotate(90deg); background: rgba(255, 255, 255, 0.02); }
+    .disclaimer, .footer { text-align: center; padding: 20px; font-size: 0.65rem; color: #4a3f38; border-top: 1px solid rgba(255, 255, 255, 0.02); }
+    .footer strong { color: #6b5e54; }
+    @media (max-width: 640px) { .hero h1 { font-size: 2.4rem; } .card img { width: 90px; height: 60px; } .card { padding: 12px 14px; gap: 12px; } #appHeader .search-row input { min-width: 120px; } .pros-cons { grid-template-columns: 1fr; } }
+
+    /* ----- LOADING SPINNER ----- */
+    .spinner { display: none; width: 40px; height: 40px; margin: 10px auto; border: 4px solid rgba(155,191,143,0.1); border-left-color: #9bbf8f; border-radius: 50%; animation: spin 1s linear infinite; }
+    .spinner.active { display: block; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ----- SHARE MODAL (Pop-up for sharing) ----- */
+    .share-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(16px);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .share-modal.open { display: flex; }
+    .share-modal-content {
+      background: #1a1410;
+      border: 1px solid rgba(255,255,255,0.04);
+      border-radius: 24px;
+      padding: 30px 24px;
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+    }
+    .share-modal-content h3 { font-size: 1.4rem; font-weight: 700; color: #f5f0eb; margin-bottom: 8px; }
+    .share-modal-content p { color: #6b5e54; font-size: 0.9rem; margin-bottom: 20px; }
+    .share-modal-content .share-link-input { width: 100%; padding: 12px 16px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.04); background: rgba(255,255,255,0.02); color: #f5f0eb; font-size: 0.85rem; margin-bottom: 16px; text-align: center; word-break: break-all; }
+    .share-modal-close { background: rgba(255,255,255,0.04); color: #6b5e54; border: none; padding: 10px 24px; border-radius: 30px; font-weight: 600; cursor: pointer; transition: 0.3s; }
+    .share-modal-close:hover { background: rgba(255,255,255,0.08); color: #f5f0eb; }
+    .share-modal .social-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 12px; }
+  </style>
+</head>
+<body>
+  <div class="bg-animated"></div>
+  <div class="particles"><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div></div>
+  
+  <div class="legal">⚖️ <strong>Editorial Note:</strong> EthicScore independently reviews skincare products. <strong>As an Amazon Associate I earn from qualifying purchases.</strong> © 2026 EthicScore</div>
+  
+  <!-- HERO -->
+  <section class="hero" id="heroSection">
+    <h1>Scan. Score. <span style="color:#d9b382;">Share.</span></h1>
+    <p>Point your camera at any skincare product — get ethics score, ingredients, and Amazon link instantly.</p>
+    <a href="#scannerSection" class="cta-btn">📷 Scan Now</a>
+    <a href="#app" class="cta-btn cta-btn-secondary">✨ Browse 50+ Products</a>
+    <div class="scroll-arrow" onclick="document.getElementById('scannerSection').scrollIntoView({behavior:'smooth'})">⌄</div>
+  </section>
+
+  <!-- ===== SCANNER SECTION ===== -->
+  <section id="scannerSection">
+    <h2>📷 Scan Any Product</h2>
+    <p>Point your camera at the barcode. We'll show you the ethics score instantly.</p>
+    <div class="scanner-box">
+      <video id="video" autoplay playsinline></video>
+      <p id="scannerStatus" class="scanner-status">Press "Start Scan" to begin</p>
+      <div class="spinner" id="spinner"></div>
+      <div id="scannerResult">
+        <div class="product-brand" id="scanBrand">Brand</div>
+        <div class="product-name" id="scanName">Product Name</div>
+        <img class="product-image" id="scanImage" src="" alt="Product image" />
+        <div class="product-price" id="scanPrice">$0</div>
+        <span class="product-score" id="scanScore">0</span>
+        <div class="product-ingredients" id="scanIngredients">Ingredients: ...</div>
+        <a id="scanAmazonLink" href="#" target="_blank" class="buy-btn" style="display:inline-block; margin-top:8px; text-decoration:none; padding:10px 24px; border-radius:40px; background:rgba(155,191,143,0.06); color:#d6c8b8; border:1px solid rgba(255,255,255,0.04); transition:0.3s; font-weight:600; font-size:0.85rem; cursor:pointer;"><i class="fas fa-shopping-cart"></i> View on Amazon</a>
+        <div class="result-actions">
+          <button class="share-btn share-btn-whatsapp" onclick="shareResult('whatsapp')"><i class="fab fa-whatsapp"></i> WhatsApp</button>
+          <button class="share-btn share-btn-instagram" onclick="shareResult('instagram')"><i class="fab fa-instagram"></i> Instagram</button>
+          <button class="share-btn share-btn-reddit" onclick="shareResult('reddit')"><i class="fab fa-reddit-alien"></i> Reddit</button>
+          <button class="share-btn share-btn-copy" onclick="copyShareLink()"><i class="fas fa-copy"></i> Copy Link</button>
+        </div>
+      </div>
+      <button id="startScanBtn" class="btn-scan">📷 Start Scan</button>
+      <button id="stopScanBtn" class="btn-stop">⛔ Stop Scan</button>
+    </div>
+    <p style="font-size:0.65rem; color:#4a3f38; margin-top:12px;">
+      📱 Works on any phone with a camera. Data from Open Food Facts.
+    </p>
+  </section>
+
+  <!-- ===== SHARE MODAL ===== -->
+  <div class="share-modal" id="shareModal">
+    <div class="share-modal-content">
+      <h3>📤 Share This Product</h3>
+      <p>Copy the link below and share it with your friends!</p>
+      <input type="text" class="share-link-input" id="shareLinkInput" readonly />
+      <div class="social-row">
+        <button class="share-btn share-btn-whatsapp" onclick="shareModalAction('whatsapp')"><i class="fab fa-whatsapp"></i> WhatsApp</button>
+        <button class="share-btn share-btn-instagram" onclick="shareModalAction('instagram')"><i class="fab fa-instagram"></i> Instagram</button>
+        <button class="share-btn share-btn-reddit" onclick="shareModalAction('reddit')"><i class="fab fa-reddit-alien"></i> Reddit</button>
+        <button class="share-btn share-btn-copy" onclick="shareModalAction('copy')"><i class="fas fa-copy"></i> Copy</button>
+      </div>
+      <button class="share-modal-close" onclick="closeShareModal()">Close</button>
+    </div>
+  </div>
+
+  <!-- ===== APP ===== -->
+  <div id="app">
+    <div id="appHeader">
+      <div class="topbar"><h1>EthicScore</h1><button id="upgradeBtn" onclick="showUpgrade()">👑 Upgrade</button></div>
+      <div class="search-row">
+        <input type="text" id="searchInput" placeholder="Search by brand or product..." />
+        <select id="regionFilter"><option value="all">🌍 All Regions</option><option value="us">🇺🇸 USA</option><option value="eu">🇪🇺 Europe</option><option value="in">🇮🇳 India</option><option value="jp">🇯🇵 Japan</option></select>
+      </div>
+    </div>
+    <main>
+      <div id="discoverView"><div class="section-title">🌿 Trending Now</div><div id="productList"></div></div>
+      <div id="routineView" style="display:none;"><div class="section-title">🧴 My Routine</div><div id="avgContainer"></div><div id="routineAnalyzer"></div><div id="routineList"></div></div>
+    </main>
+    <div class="detail-overlay" id="detailOverlay"><div class="detail-sheet" id="detailSheet"></div></div>
+    <nav class="bottom-nav"><button id="navDiscover" class="active" onclick="switchTab('discover')">🔍<br>Discover</button><button id="navRoutine" onclick="switchTab('routine')">🧴<br>Routine</button></nav>
+    <div class="disclaimer">⚖️ Independent & Educational. <strong>As an Amazon Associate I earn from qualifying purchases.</strong></div>
+  </div>
+  
+  <div class="image-lightbox" id="imageLightbox" onclick="closeLightbox()"><div class="close-lb" onclick="event.stopPropagation(); closeLightbox();">✕</div><img id="lightboxImage" src="" alt="Product zoom" onclick="event.stopPropagation();" /></div>
+  <div class="footer">© 2026 <strong>EthicScore</strong> — Scan. Score. Share.</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@zxing/browser@0.1.0/umd/index.min.js"></script>
+  <script>
+    // =============================================
+    // OPEN FOOD FACTS API (GLOBAL PRODUCT DATABASE)
+    // =============================================
+    async function lookupProduct(barcode) {
+      try {
+        const response = await fetch(`https://world.openfoodfacts.org/api/v2/product/${barcode}.json`);
+        const data = await response.json();
+        if (data.status === 1) {
+          return data.product;
+        } else {
+          return null;
+        }
+      } catch (error) {
+        console.error('API Error:', error);
+        return null;
+      }
+    }
+
+    // =============================================
+    // CALCULATE ETHICS SCORE (Based on Open Food Facts data)
+    // =============================================
+    function calculateScore(product) {
+      let score = 50; // Start neutral
+      const ingredients = product.ingredients_text || '';
+      const brands = product.brands || '';
+      const labels = product.labels || '';
+      const categories = product.categories || '';
+
+      // Check for cruelty-free keywords (bonus points)
+      const crueltyFreeKeywords = ['cruelty-free', 'not tested on animals', 'vegan', 'vegetarian'];
+      if (crueltyFreeKeywords.some(k => labels.toLowerCase().includes(k) || categories.toLowerCase().includes(k))) {
+        score += 20;
+      }
+
+      // Check for natural/organic keywords (bonus points)
+      const naturalKeywords = ['organic', 'natural', 'eco', 'bio'];
+      if (naturalKeywords.some(k => labels.toLowerCase().includes(k))) {
+        score += 15;
+      }
+
+      // Check for problematic ingredients (penalty)
+      const badIngredients = ['paraben', 'sulfate', 'phthalate', 'formaldehyde', 'triclosan'];
+      if (badIngredients.some(k => ingredients.toLowerCase().includes(k))) {
+        score -= 20;
+      }
+
+      // Check for parent company / conglomerate (penalty)
+      const conglomerates = ['loreal', 'l\'oreal', 'unilever', 'procter', 'p&g', 'johnson & johnson', 'estee lauder', 'shiseido'];
+      if (conglomerates.some(k => brands.toLowerCase().includes(k))) {
+        score -= 15;
+      }
+
+      // Cap score
+      return Math.min(100, Math.max(0, score));
+    }
+
+    function getScoreClass(score) {
+      if (score >= 75) return "high";
+      if (score >= 55) return "mid";
+      return "low";
+    }
+
+    // =============================================
+    // SCANNER LOGIC
+    // =============================================
+    let codeReader = null;
+    let isScanning = false;
+
+    const video = document.getElementById('video');
+    const statusEl = document.getElementById('scannerStatus');
+    const resultEl = document.getElementById('scannerResult');
+    const scanBtn = document.getElementById('startScanBtn');
+    const stopBtn = document.getElementById('stopScanBtn');
+    const spinner = document.getElementById('spinner');
+
+    // Product details elements
+    const scanBrand = document.getElementById('scanBrand');
+    const scanName = document.getElementById('scanName');
+    const scanPrice = document.getElementById('scanPrice');
+    const scanScore = document.getElementById('scanScore');
+    const scanImage = document.getElementById('scanImage');
+    const scanIngredients = document.getElementById('scanIngredients');
+    const scanAmazonLink = document.getElementById('scanAmazonLink');
+
+    // Store last scanned product for sharing
+    let lastScannedProduct = null;
+
+    function displayProduct(product, barcode) {
+      resultEl.style.display = 'block';
+      scanBrand.textContent = product.brands || 'Unknown Brand';
+      scanName.textContent = product.product_name || 'Unknown Product';
+      scanImage.src = product.image_url || '';
+      scanImage.alt = product.product_name || 'Product image';
+      scanPrice.textContent = product.price || 'Check Amazon for price';
+      
+      // Calculate ethics score
+      const score = calculateScore(product);
+      scanScore.textContent = score;
+      scanScore.className = 'product-score ' + getScoreClass(score);
+
+      // Show ingredients
+      scanIngredients.textContent = 'Ingredients: ' + (product.ingredients_text || 'Not available');
+
+      // Build Amazon search link with your Tracking ID
+      const searchQuery = encodeURIComponent((product.product_name || '') + ' ' + (product.brands || ''));
+      scanAmazonLink.href = `https://www.amazon.com/s?k=${searchQuery}&tag=clearsourceOf-20`;
+      scanAmazonLink.style.display = 'inline-block';
+
+      // Store for sharing
+      lastScannedProduct = {
+        name: product.product_name || 'Unknown Product',
+        brand: product.brands || 'Unknown Brand',
+        score: score,
+        barcode: barcode,
+        url: window.location.href
+      };
+
+      statusEl.textContent = '✅ Product found!';
+      spinner.classList.remove('active');
+    }
+
+    function showNotFound(barcode) {
+      resultEl.style.display = 'block';
+      scanBrand.textContent = '❌ Not Found';
+      scanName.textContent = 'Product not in database';
+      scanImage.src = '';
+      scanPrice.textContent = '';
+      scanScore.textContent = '⚠️';
+      scanScore.className = 'product-score';
+      scanIngredients.textContent = 'Try scanning another product.';
+      scanAmazonLink.style.display = 'none';
+      lastScannedProduct = null;
+      statusEl.textContent = '❌ Product not found';
+      spinner.classList.remove('active');
+    }
+
+    async function startScan() {
+      try {
+        statusEl.textContent = '📱 Initializing camera...';
+        scanBtn.disabled = true;
+
+        codeReader = new ZXing.BrowserMultiFormatReader();
+        const videoInputDevices = await codeReader.getVideoInputDevices();
+
+        if (videoInputDevices.length === 0) {
+          statusEl.textContent = '❌ No camera found.';
+          scanBtn.disabled = false;
+          return;
+        }
+
+        const deviceId = videoInputDevices.length > 1 ? videoInputDevices[1].deviceId : videoInputDevices[0].deviceId;
+
+        video.style.display = 'block';
+        video.srcObject = await navigator.mediaDevices.getUserMedia({
+          video: { deviceId: { exact: deviceId } }
+        });
+
+        statusEl.textContent = '🔍 Scanning...';
+        scanBtn.style.display = 'none';
+        stopBtn.style.display = 'inline-block';
+
+        isScanning = true;
+        codeReader.decodeFromStream(video.srcObject, video, async (result, err) => {
+          if (result) {
+            const barcode = result.getText();
+            statusEl.textContent = '📦 Looking up product...';
+            spinner.classList.add('active');
+            const product = await lookupProduct(barcode);
+            spinner.classList.remove('active');
+            if (product) {
+              displayProduct(product, barcode);
+            } else {
+              showNotFound(barcode);
+            }
+          }
+          if (err && !(err instanceof ZXing.NotFoundException)) {
+            console.error(err);
+          }
+        });
+
+      } catch (err) {
+        console.error(err);
+        statusEl.textContent = '❌ Error: ' + err.message;
+        scanBtn.disabled = false;
+        scanBtn.style.display = 'inline-block';
+        stopBtn.style.display = 'none';
+        spinner.classList.remove('active');
+      }
+    }
+
+    function stopScan() {
+      if (codeReader) {
+        codeReader.reset();
+        codeReader = null;
+      }
+      if (video.srcObject) {
+        video.srcObject.getTracks().forEach(track => track.stop());
+        video.srcObject = null;
+      }
+      video.style.display = 'none';
+      statusEl.textContent = '⏹️ Scan stopped. Press "Start Scan" to try again.';
+      isScanning = false;
+      scanBtn.disabled = false;
+      scanBtn.style.display = 'inline-block';
+      stopBtn.style.display = 'none';
+      spinner.classList.remove('active');
+    }
+
+    scanBtn.addEventListener('click', startScan);
+    stopBtn.addEventListener('click', stopScan);
+
+    window.addEventListener('beforeunload', function() {
+      if (codeReader) codeReader.reset();
+      if (video.srcObject) {
+        video.srcObject.getTracks().forEach(track => track.stop());
+      }
+    });
+
+    // =============================================
+    // SHARE FUNCTION (Viral Growth Engine)
+    // =============================================
+    function getShareLink() {
+      if (lastScannedProduct) {
+        const data = {
+          name: lastScannedProduct.name,
+          brand: lastScannedProduct.brand,
+          score: lastScannedProduct.score,
+          barcode: lastScannedProduct.barcode
+        };
+        const encoded = encodeURIComponent(JSON.stringify(data));
+        return `https://vivugc369-ops.github.io/EthicScore/?share=${encoded}`;
+      }
+      return window.location.href;
+    }
+
+    function shareResult(platform) {
+      const link = getShareLink();
+      const text = `🔍 I just scanned ${lastScannedProduct ? lastScannedProduct.name : 'a product'} on EthicScore! It scored ${lastScannedProduct ? lastScannedProduct.score : '?'}/100 for ethics. Check your skincare too! 🌿`;
+
+      let url = '';
+      switch(platform) {
+        case 'whatsapp':
+          url = `https://api.whatsapp.com/send?text=${encodeURIComponent(text + '\n' + link)}`;
+          break;
+        case 'instagram':
+          navigator.clipboard.writeText(link + '\n' + text);
+          alert('📋 Link copied! Paste it in your Instagram bio or DM.');
+          return;
+        case 'reddit':
+          url = `https://www.reddit.com/submit?title=${encodeURIComponent('I scanned a skincare product on EthicScore - here\'s what I found!')}&url=${encodeURIComponent(link)}`;
+          break;
+        default:
+          navigator.clipboard.writeText(link);
+          alert('📋 Link copied to clipboard!');
+          return;
+      }
+      if (url) window.open(url, '_blank');
+    }
+
+    function copyShareLink() {
+      const link = getShareLink();
+      navigator.clipboard.writeText(link);
+      alert('📋 Link copied to clipboard!\n\nShare it on WhatsApp, Instagram, or anywhere else.');
+    }
+
+    // =============================================
+    // SHARE MODAL (Full pop-up)
+    // =============================================
+    function openShareModal() {
+      const modal = document.getElementById('shareModal');
+      const input = document.getElementById('shareLinkInput');
+      input.value = getShareLink();
+      modal.classList.add('open');
+    }
+
+    function closeShareModal() {
+      document.getElementById('shareModal').classList.remove('open');
+    }
+
+    function shareModalAction(action) {
+      const link = getShareLink();
+      const text = `🔍 I just scanned a product on EthicScore! Check your skincare too. 🌿`;
+
+      switch(action) {
+        case 'whatsapp':
+          window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text + '\n' + link)}`, '_blank');
+          break;
+        case 'instagram':
+          navigator.clipboard.writeText(link + '\n' + text);
+          alert('📋 Link copied! Paste it in your Instagram bio or DM.');
+          break;
+        case 'reddit':
+          window.open(`https://www.reddit.com/submit?title=${encodeURIComponent('I scanned a skincare product on EthicScore - here\'s what I found!')}&url=${encodeURIComponent(link)}`, '_blank');
+          break;
+        case 'copy':
+          navigator.clipboard.writeText(link);
+          alert('📋 Link copied to clipboard!');
+          break;
+      }
+      closeShareModal();
+    }
+
+    // Close modal on background click
+    document.getElementById('shareModal').addEventListener('click', function(e) {
+      if (e.target === this) closeShareModal();
+    });
+
+    // =============================================
+    // APP FUNCTIONS (Search, Routine, Detail View)
+    // =============================================
+    // (Keeping your existing app functions - they work the same)
+    const products = [
+      { id: 1, brand: "Glossier", name: "Milky Jelly Cleanser", price: "$18", score: 72, cf: true, pkg: false, conglo: false, parent: "Glossier Inc.", ingredients: ["Aloe", "Glycerin", "Chamomile"], img: "https://images.unsplash.com/photo-1556229010-6c3f2c9ca5f8?w=300&h=200&fit=crop", category: "cleanser", region: "us", buyLink: "https://www.amazon.com/s?k=glossier+milky+jelly+cleanser&tag=clearsourceOf-20", review: "Gentle pH-balanced cleanser that removes makeup without stripping moisture.", bestFor: "Sensitive & normal skin.", pros: ["Gentle", "Soothes", "Non-stripping"], cons: ["Pricey", "Not for heavy makeup"] },
+      { id: 2, brand: "CeraVe", name: "Hydrating Facial Cleanser", price: "$14", score: 78, cf: false, pkg: false, conglo: true, parent: "L'Oréal", ingredients: ["Ceramides", "Hyaluronic Acid"], img: "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=300&h=200&fit=crop", category: "cleanser", region: "us", buyLink: "https://www.amazon.com/s?k=cerave+hydrating+cleanser&tag=clearsourceOf-20", review: "Non-foaming gel cleanser that hydrates while cleansing.", bestFor: "Dry & sensitive skin.", pros: ["Hydrating", "Fragrance-free", "Affordable"], cons: ["Not for oily skin", "Doesn't lather"] },
+      { id: 3, brand: "CeraVe", name: "Foaming Facial Cleanser", price: "$14", score: 70, cf: false, pkg: false, conglo: true, parent: "L'Oréal", ingredients: ["Ceramides", "Niacinamide"], img: "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=300&h=200&fit=crop", category: "cleanser", region: "us", buyLink: "https://www.amazon.com/s?k=cerave+foaming+cleanser&tag=clearsourceOf-20", review: "Deeply cleanses oily skin without over-drying.", bestFor: "Oily & combination skin.", pros: ["Deep cleans", "Removes oil", "Dermatologist loved"], cons: ["Can strip dry skin", "Contains parabens"] },
+      { id: 4, brand: "Youth To The People", name: "Superfood Cleanser", price: "$38", score: 88, cf: true, pkg: true, conglo: true, parent: "L'Oréal", ingredients: ["Kale", "Spinach", "Green Tea"], img: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=300&h=200&fit=crop", category: "cleanser", region: "us", buyLink: "https://www.amazon.com/s?k=youth+to+the+people+superfood+cleanser&tag=clearsourceOf-20", review: "Antioxidant-rich gel cleanser packed with greens.", bestFor: "Combination & oily skin.", pros: ["Antioxidant rich", "Deeply cleans", "Sustainable packaging"], cons: ["Pricey", "Can be drying"] },
+      { id: 5, brand: "La Roche-Posay", name: "Toleriane Hydrating Cleanser", price: "$16", score: 85, cf: true, pkg: true, conglo: true, parent: "L'Oréal", ingredients: ["Ceramides", "Niacinamide", "Glycerin"], img: "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=300&h=200&fit=crop", category: "cleanser", region: "eu", buyLink: "https://www.amazon.com/s?k=la+roche+posay+toleriane+cleanser&tag=clearsourceOf-20", review: "Gentle cream cleanser that respects the skin barrier.", bestFor: "Sensitive & dry skin.", pros: ["Soothing", "Restores barrier", "Fragrance-free"], cons: ["Doesn't remove makeup well", "Pricey"] },
+      { id: 6, brand: "Cosrx", name: "Low pH Good Morning Cleanser", price: "$11", score: 82, cf: true, pkg: false, conglo: false, parent: "Cosrx", ingredients: ["Tea Tree", "BHA"], img: "https://images.unsplash.com/photo-1556229010-6c3f2c9ca5f8?w=300&h=200&fit=crop", category: "cleanser", region: "jp", buyLink: "https://www.amazon.com/s?k=cosrx+low+ph+cleanser&tag=clearsourceOf-20", review: "Low pH gel cleanser that maintains the skin's acid mantle.", bestFor: "All skin types.", pros: ["Balancing", "Refreshing", "Affordable"], cons: ["Slight tea tree scent", "Can be drying"] },
+      { id: 7, brand: "Bioderma", name: "Sensibio H2O Micellar Water", price: "$15", score: 90, cf: true, pkg: false, conglo: true, parent: "Bioderma", ingredients: ["Micelles", "Cucumber Extract"], img: "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=300&h=200&fit=crop", category: "cleanser", region: "eu", buyLink: "https://www.amazon.com/s?k=bioderma+sensibio+micellar&tag=clearsourceOf-20", review: "No-rinse micellar water that gently removes makeup.", bestFor: "Sensitive skin.", pros: ["Gentle", "Effective makeup removal", "Soothes"], cons: ["Requires cotton pads", "Not for heavy eye makeup"] },
+      { id: 8, brand: "Avene", name: "Cleanance Gel Cleanser", price: "$18", score: 75, cf: true, pkg: false, conglo: true, parent: "Avene", ingredients: ["Cucumber", "Zinc Gluconate"], img: "https://images.unsplash.com/photo-1556229010-6c3f2c9ca5f8?w=300&h=200&fit=crop", category: "cleanser", region: "eu", buyLink: "https://www.amazon.com/s?k=avene+cleanance+gel&tag=clearsourceOf-20", review: "Soap-free gel that purifies the skin without drying.", bestFor: "Acne-prone skin.", pros: ["Purifies", "Non-comedogenic", "Matte finish"], cons: ["Pricey", "Can be stripping"] },
+      { id: 9, brand: "Simple", name: "Refreshing Face Wash", price: "$8", score: 68, cf: false, pkg: false, conglo: true, parent: "Unilever", ingredients: ["Glycerin", "Panthenol"], img: "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=300&h=200&fit=crop", category: "cleanser", region: "us", buyLink: "https://www.amazon.com/s?k=simple+refreshing+face+wash&tag=clearsourceOf-20", review: "Budget-friendly gel that removes impurities without irritating.", bestFor: "Normal skin.", pros: ["Affordable", "Gentle", "Fragrance-free"], cons: ["Not very hydrating", "Basic"] },
+      { id: 10, brand: "Neutrogena", name: "Hydro Boost Gel Cleanser", price: "$12", score: 80, cf: false, pkg: false, conglo: true, parent: "Johnson & Johnson", ingredients: ["Hyaluronic Acid", "Glycerin"], img: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=300&h=200&fit=crop", category: "cleanser", region: "us", buyLink: "https://www.amazon.com/s?k=neutrogena+hydro+boost+cleanser&tag=clearsourceOf-20", review: "Gel cleanser that boosts hydration while gently cleansing.", bestFor: "Dry skin.", pros: ["Hydrating", "Lightweight", "Affordable"], cons: ["Fragrance", "Not for oily skin"] }
+    ];
+
+    let routine = JSON.parse(localStorage.getItem('cs_routine') || '[]');
+    let isPro = localStorage.getItem('cs_isPro') === 'true';
+
+    function saveState() { localStorage.setItem('cs_routine', JSON.stringify(routine)); localStorage.setItem('cs_isPro', isPro); }
+    function scoreClass(s) { if (s >= 75) return "high"; if (s >= 55) return "mid"; return "low"; }
+    function getRegionEmoji(r) { const map = { us: '🇺🇸', eu: '🇪🇺', in: '🇮🇳', jp: '🇯🇵' }; return map[r] || '🌍'; }
+
+    function openLightbox(src) { document.getElementById('lightboxImage').src = src; document.getElementById('imageLightbox').classList.add('open'); document.body.style.overflow = 'hidden'; }
+    function closeLightbox() { document.getElementById('imageLightbox').classList.remove('open'); document.body.style.overflow = ''; }
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
+
+    function renderProducts(list, targetId) {
+      const container = document.getElementById(targetId);
+      if (!container) return;
+      if (list.length === 0) { container.innerHTML = '<div class="empty-state">🌿 No products found</div>'; return; }
+      container.innerHTML = list.map((p) => `
+        <div class="card" onclick="openDetail(${p.id})">
+          <img src="${p.img}" alt="${p.name}" onclick="event.stopPropagation(); openLightbox('${p.img}');" />
+          <div class="card-info">
+            <div class="brand">${p.brand} <span class="region-tag">${getRegionEmoji(p.region)} ${p.region.toUpperCase()}</span></div>
+            <div class="name">${p.name}</div>
+            <div class="price">${p.price}</div>
+          </div>
+          <div class="right-col">
+            <div class="score ${scoreClass(p.score)}">${p.score}</div>
+            <button class="add-btn ${routine.includes(p.id) ? 'added' : ''}" onclick="event.stopPropagation(); toggleRoutine(${p.id});">${routine.includes(p.id) ? '✓' : '+'}</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function toggleRoutine(id) {
+      const idx = routine.indexOf(id);
+      if (idx > -1) routine.splice(idx, 1); else routine.push(id);
+      saveState();
+      const onRoutine = document.getElementById('routineView').style.display === 'block';
+      if (onRoutine) renderRoutine(); else renderProducts(filteredProducts(), 'productList');
+    }
+
+    function filteredProducts() {
+      const q = document.getElementById('searchInput').value.toLowerCase();
+      const region = document.getElementById('regionFilter').value;
+      return products.filter(p => {
+        const matchName = p.brand.toLowerCase().includes(q) || p.name.toLowerCase().includes(q);
+        const matchRegion = region === 'all' || p.region === region;
+        return matchName && matchRegion;
+      });
+    }
+
+    function renderRoutine() {
+      const list = products.filter(p => routine.includes(p.id));
+      const avgContainer = document.getElementById('avgContainer');
+      if (list.length === 0) { avgContainer.innerHTML = ''; document.getElementById('routineList').innerHTML = '<div class="empty-state">🌱 No products in routine</div>'; document.getElementById('routineAnalyzer').innerHTML = ''; return; }
+      const avg = Math.round(list.reduce((s, p) => s + p.score, 0) / list.length);
+      avgContainer.innerHTML = `<div class="avg-box"><div style="font-size:0.75rem;color:#6b5e54;font-weight:600;">ROUTINE ETHICS AVG</div><div class="num">${avg}<span style="font-size:0.9rem;color:#6b5e54;">/100</span></div><div style="font-size:0.8rem;color:#6b5e54;">${list.length} products</div></div>`;
+      renderProducts(list, 'routineList');
+      analyzeRoutine(list);
+    }
+
+    function analyzeRoutine(list) {
+      const analyzer = document.getElementById('routineAnalyzer');
+      if (list.length === 0) { analyzer.innerHTML = ''; return; }
+      const categories = list.map(p => p.category);
+      let tips = [];
+      if (!categories.includes('cleanser')) tips.push('🧼 Missing a cleanser');
+      if (!categories.includes('serum')) tips.push('🧪 Add a serum');
+      if (!categories.includes('moisturizer')) tips.push('💧 You need a moisturizer');
+      if (!categories.includes('sunscreen')) tips.push('☀️ Don\'t forget sunscreen');
+      if (!categories.includes('toner')) tips.push('🌸 Add a toner');
+      if (!categories.includes('mask')) tips.push('🌿 Try a face mask');
+      let html = `<div class="avg-box" style="background:rgba(155,191,143,0.03);"><div style="font-weight:700;color:#f5f0eb;">🧠 Routine Tips</div>`;
+      if (tips.length === 0) { html += `<p style="color:#9bbf8f;">✨ Perfect routine!</p>`; } else { html += tips.map(t => `<div style="padding:6px 0;color:#b5a89c;font-size:0.9rem;">${t}</div>`).join(''); }
+      html += `</div>`;
+      analyzer.innerHTML = html;
+    }
+
+    function openDetail(id) {
+      const p = products.find(x => x.id === id);
+      if (!p) return;
+      const overlay = document.getElementById('detailOverlay');
+      const sheet = document.getElementById('detailSheet');
+      const ingredientsHTML = isPro ? `<div style="margin-top:16px;font-weight:700;color:#f5f0eb;">Ingredients <span class="pro-badge">PRO</span></div><div>${p.ingredients.map(i => `<span class="ingredient-chip">✓ ${i}</span>`).join('')}</div>` : `<div class="lock-overlay"><div class="lock-icon">🔒</div><p>Ingredients are Pro only</p><button class="upgrade-btn" onclick="closeDetail();showUpgrade();">Upgrade</button></div>`;
+      const parentHTML = isPro ? `<div class="breakdown-row"><span>Parent Co.</span><span>${p.conglo ? 40 : 90}/100</span></div><div class="bar-bg"><div class="bar-fill" data-target="${p.conglo ? 40 : 90}%" style="background:${p.conglo ? '#d9b382' : '#9bbf8f'}"></div></div><div style="color:#b5a89c;margin-top:6px;">Parent: <strong style="color:#f5f0eb;">${p.parent}</strong></div>` : '';
+      const prosHTML = p.pros && p.pros.length ? p.pros.map(i => `<li>${i}</li>`).join('') : '<li>No pros listed</li>';
+      const consHTML = p.cons && p.cons.length ? p.cons.map(i => `<li>${i}</li>`).join('') : '<li>No cons listed</li>';
+      sheet.innerHTML = `
+        <div class="close-btn" onclick="closeDetail()">✕</div>
+        <div style="font-size:0.8rem;text-transform:uppercase;color:#6b5e54;font-weight:600;letter-spacing:0.04em;">${p.brand}</div>
+        <div style="font-size:1.5rem;font-weight:700;color:#f5f0eb;margin:2px 0 4px;">${p.name}</div>
+        <div style="font-size:1.1rem;color:#b5a89c;margin-bottom:8px;">${p.price}</div>
+        <div class="review-text">${p.review}</div>
+        <div class="best-for"><strong>Best for:</strong> ${p.bestFor}</div>
+        <div class="pros-cons"><div class="pros"><h4>Pros</h4><ul>${prosHTML}</ul></div><div class="cons"><h4>Cons</h4><ul>${consHTML}</ul></div></div>
+        <a href="${p.buyLink}" target="_blank" class="buy-btn"><i class="fas fa-shopping-cart"></i> View on Amazon <span style="font-size:0.65rem; opacity:0.6;">(paid link)</span></a>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 16px;">
+          <span style="background:rgba(155,191,143,0.06);color:#9bbf8f;padding:4px 14px;border-radius:30px;font-weight:700;font-size:0.75rem;">${p.cf ? '✓ Cruelty-Free' : '✗ Not CF'}</span>
+          <span style="background:rgba(217,179,130,0.06);color:#d9b382;padding:4px 14px;border-radius:30px;font-weight:700;font-size:0.75rem;">${p.pkg ? 'Sustainable' : 'Non-Sust'}</span>
+          <span class="region-tag">${getRegionEmoji(p.region)} ${p.region.toUpperCase()}</span>
+        </div>
+        <div style="font-weight:700;color:#f5f0eb;margin-top:12px;">Ethics Score Breakdown</div>
+        <div class="breakdown-row"><span>Cruelty-Free</span><span>${p.cf ? 100 : 20}/100</span></div>
+        <div class="bar-bg"><div class="bar-fill" data-target="${p.cf ? 100 : 20}%" style="background:${p.cf ? '#9bbf8f' : '#b35c4a'}"></div></div>
+        <div class="breakdown-row"><span>Packaging</span><span>${p.pkg ? 85 : 40}/100</span></div>
+        <div class="bar-bg"><div class="bar-fill" data-target="${p.pkg ? 85 : 40}%" style="background:${p.pkg ? '#9bbf8f' : '#d9b382'}"></div></div>
+        ${parentHTML}${ingredientsHTML}
+        <button style="width:100%;margin-top:20px;padding:16px;background:rgba(255,255,255,0.02);color:#f5f0eb;border:1px solid rgba(255,255,255,0.04);border-radius:16px;font-weight:700;cursor:pointer;" onclick="toggleRoutine(${p.id});openDetail(${p.id});">${routine.includes(p.id) ? '✓ In Routine' : '+ Add to Routine'}</button>
+        <div style="font-size:0.65rem;color:#4a3f38;text-align:center;margin-top:12px;border-top:1px solid rgba(255,255,255,0.02);padding-top:12px;"><strong>As an Amazon Associate I earn from qualifying purchases.</strong></div>
+      `;
+      overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      setTimeout(() => { document.querySelectorAll('.bar-fill').forEach(el => { el.style.width = el.dataset.target; }); }, 100);
+    }
+
+    function closeDetail() { document.getElementById('detailOverlay').classList.remove('open'); document.body.style.overflow = ''; }
+    function switchTab(tab) { document.getElementById('discoverView').style.display = tab === 'discover' ? 'block' : 'none'; document.getElementById('routineView').style.display = tab === 'routine' ? 'block' : 'none'; document.getElementById('navDiscover').classList.toggle('active', tab === 'discover'); document.getElementById('navRoutine').classList.toggle('active', tab === 'routine'); if (tab === 'routine') renderRoutine(); }
+    function showUpgrade() { if (isPro) { alert("Already Pro!"); return; } if (confirm("Upgrade to Pro? $4.99/month")) { isPro = true; saveState(); document.getElementById('upgradeBtn').textContent = '✓ Pro'; alert("Welcome to Pro!"); } }
+    document.getElementById('searchInput').addEventListener('input', function() { renderProducts(filteredProducts(), 'productList'); });
+    document.getElementById('regionFilter').addEventListener('change', function() { renderProducts(filteredProducts(), 'productList'); });
+    document.addEventListener('DOMContentLoaded', function() { renderProducts(products, 'productList'); if (isPro) document.getElementById('upgradeBtn').textContent = '✓ Pro'; });
+    document.getElementById('detailOverlay').addEventListener('click', function(e) { if (e.target === this) closeDetail(); });
+
+    // Also add share modal trigger to the scanner result section
+    // We already have share buttons in the result
+  </script>
+</body>
+</html>
