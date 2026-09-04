@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EthicScore — Barcode Scanner</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0b0a0a;
+            color: #f5f0eb;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 420px;
+            width: 100%;
+            text-align: center;
+        }
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #f5f0eb, #d9b382);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+        }
+        p {
+            color: #6b5e54;
+            font-size: 0.95rem;
+            margin-bottom: 24px;
+        }
+        .scanner-box {
+            background: rgba(255, 255, 255, 0.02);
+            border: 2px dashed rgba(155, 191, 143, 0.15);
+            border-radius: 24px;
+            padding: 30px 20px;
+            margin-bottom: 20px;
+            position: relative;
+            min-height: 280px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        #video {
+            width: 100%;
+            border-radius: 16px;
+            display: none;
+            background: #1a1410;
+        }
+        #result {
+            color: #9bbf8f;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-top: 16px;
+            word-break: break-all;
+        }
+        .btn {
+            background: linear-gradient(135deg, #9bbf8f, #d9b382);
+            color: #0b0a0a;
+            padding: 14px 32px;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto 12px;
+        }
+        .btn:hover {
+            transform: scale(1.03);
+            box-shadow: 0 8px 30px rgba(155, 191, 143, 0.2);
+        }
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.04);
+            color: #b5a89c;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+        }
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+        .note {
+            font-size: 0.7rem;
+            color: #4a3f38;
+            margin-top: 16px;
+            line-height: 1.6;
+        }
+        .status {
+            color: #6b5e54;
+            font-size: 0.85rem;
+            margin-top: 12px;
+        }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>📷 EthicScore</h1>
+    <p>Scan a product barcode to check its ethics score</p>
+
+    <div class="scanner-box">
+        <video id="video" autoplay playsinline></video>
+        <div id="result"></div>
+        <p id="status" class="status">Press "Start Scan" to begin</p>
+    </div>
+
+    <button id="scanBtn" class="btn">📷 Start Scan</button>
+    <button id="stopBtn" class="btn btn-secondary hidden">⛔ Stop Scan</button>
+
+    <p class="note">
+        🔍 Point your camera at any product barcode (UPC, EAN, or QR code).<br>
+        Your camera data is processed locally on your device—nothing is sent anywhere.
+    </p>
+</div>
+
+<!-- Include the barcode scanner library -->
+<script src="https://cdn.jsdelivr.net/npm/@zxing/browser@0.1.0/umd/index.min.js"></script>
+
+<script>
+    const video = document.getElementById('video');
+    const resultEl = document.getElementById('result');
+    const statusEl = document.getElementById('status');
+    const scanBtn = document.getElementById('scanBtn');
+    const stopBtn = document.getElementById('stopBtn');
+
+    let codeReader = null;
+    let isScanning = false;
+
+    scanBtn.addEventListener('click', startScan);
+    stopBtn.addEventListener('click', stopScan);
+
+    async function startScan() {
+        try {
+            statusEl.textContent = '📱 Initializing camera...';
+            scanBtn.disabled = true;
+
+            // Create the barcode reader
+            codeReader = new ZXing.BrowserMultiFormatReader();
+
+            // Get camera permissions and start scanning
+            const videoInputDevices = await codeReader.getVideoInputDevices();
+            
+            if (videoInputDevices.length === 0) {
+                statusEl.textContent = '❌ No camera found. Please use a device with a camera.';
+                scanBtn.disabled = false;
+                return;
+            }
+
+            // Use the back camera if available, otherwise use the first one
+            const deviceId = videoInputDevices.length > 1 ? videoInputDevices[1].deviceId : videoInputDevices[0].deviceId;
+
+            video.style.display = 'block';
+            video.srcObject = await navigator.mediaDevices.getUserMedia({
+                video: { deviceId: { exact: deviceId } }
+            });
+
+            statusEl.textContent = '🔍 Scanning... Point camera at a barcode';
+
+            // Start decoding
+            isScanning = true;
+            scanBtn.classList.add('hidden');
+            stopBtn.classList.remove('hidden');
+
+            codeReader.decodeFromStream(video.srcObject, video, (result, err) => {
+                if (result) {
+                    resultEl.textContent = `✅ Scanned: ${result.getText()}`;
+                    statusEl.textContent = '✅ Barcode detected!';
+                    // You can add a lookup here to show product info
+                    // For example: redirect to a product page or show details
+                }
+                if (err && !(err instanceof ZXing.NotFoundException)) {
+                    console.error(err);
+                }
+            });
+
+        } catch (err) {
+            console.error(err);
+            statusEl.textContent = '❌ Error: ' + err.message;
+            scanBtn.disabled = false;
+            scanBtn.classList.remove('hidden');
+            stopBtn.classList.add('hidden');
+        }
+    }
+
+    function stopScan() {
+        if (codeReader) {
+            codeReader.reset();
+            codeReader = null;
+        }
+        if (video.srcObject) {
+            video.srcObject.getTracks().forEach(track => track.stop());
+            video.srcObject = null;
+        }
+        video.style.display = 'none';
+        resultEl.textContent = '';
+        statusEl.textContent = '⏹️ Scan stopped. Press "Start Scan" to try again.';
+        isScanning = false;
+        scanBtn.disabled = false;
+        scanBtn.classList.remove('hidden');
+        stopBtn.classList.add('hidden');
+    }
+
+    // Handle page unload to release camera
+    window.addEventListener('beforeunload', function() {
+        if (codeReader) {
+            codeReader.reset();
+        }
+        if (video.srcObject) {
+            video.srcObject.getTracks().forEach(track => track.stop());
+        }
+    });
+</script>
+
+</body>
+</html>
