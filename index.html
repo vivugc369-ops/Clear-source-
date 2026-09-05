@@ -524,6 +524,65 @@
     document.getElementById('regionFilter').addEventListener('change', function() { renderProducts(filteredProducts(), 'productList'); });
     document.addEventListener('DOMContentLoaded', function() { renderProducts(products, 'productList'); if (isPro) document.getElementById('upgradeBtn').textContent = '✓ Pro'; });
     document.getElementById('detailOverlay').addEventListener('click', function(e) { if (e.target === this) closeDetail(); });
-  </script>
-</body>
+<canvas id="heroCanvas" style="position:absolute; top:0; left:0; width:100%; height:200px; z-index:0; pointer-events:none;"></canvas>
+
+<script>
+(function initHeroCanvas() {
+  const canvas = document.getElementById('heroCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let w, h, droplets = [];
+  const DROPLET_COUNT = 20;
+
+  function resize() {
+    w = canvas.width = canvas.offsetWidth;
+    h = canvas.height = 200;
+  }
+
+  function makeDroplet() {
+    return {
+      x: Math.random() * w,
+      y: h + Math.random() * 100,
+      r: 2 + Math.random() * 4,
+      speed: 0.3 + Math.random() * 0.6,
+      drift: (Math.random() - 0.5) * 0.4,
+      opacity: 0.15 + Math.random() * 0.35,
+      hue: Math.random() > 0.5 ? '0,217,217' : '255,193,7'
+    };
+  }
+
+  function init() {
+    resize();
+    droplets = Array.from({ length: DROPLET_COUNT }, makeDroplet);
+  }
+
+  function tick() {
+    ctx.clearRect(0, 0, w, h);
+    droplets.forEach(d => {
+      d.y -= d.speed;
+      d.x += d.drift;
+      if (d.y < -10) Object.assign(d, makeDroplet(), { y: h + 10 });
+
+      const gradient = ctx.createRadialGradient(d.x, d.y, 0, d.x, d.y, d.r * 3);
+      gradient.addColorStop(0, `rgba(${d.hue},${d.opacity})`);
+      gradient.addColorStop(1, `rgba(${d.hue},0)`);
+      ctx.fillStyle = gradient;
+      ctx.beginPath();
+      ctx.arc(d.x, d.y, d.r * 3, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = `rgba(${d.hue},${Math.min(d.opacity + 0.3, 1)})`;
+      ctx.beginPath();
+      ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+      ctx.fill();
+    });
+    requestAnimationFrame(tick);
+  }
+
+  window.addEventListener('resize', resize);
+  init();
+  tick();
+})();
+</script>  </script>
+ </body>
 </html>
